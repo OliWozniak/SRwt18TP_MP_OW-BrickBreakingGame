@@ -29,14 +29,24 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#include "../../Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_lcd.h"
+#include "../../Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_ts.h"
+
 
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+
+#define LCD_FRAME_BUFFER_LAYER0                  (LCD_FRAME_BUFFER+0x130000)
+#define LCD_FRAME_BUFFER_LAYER1                  LCD_FRAME_BUFFER
+#define CONVERTED_FRAME_BUFFER                   (LCD_FRAME_BUFFER+0x260000)
 
 /* USER CODE END ET */
 
