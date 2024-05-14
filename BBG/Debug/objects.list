@@ -14,6 +14,7 @@
 "Core/Src/sysmem.o"
 "Core/Src/system_stm32f4xx.o"
 "Core/Src/tim.o"
+"Core/Src/ts_calibration.o"
 "Core/Src/usart.o"
 "Core/Startup/startup_stm32f429zitx.o"
 "Drivers/BSP/Components/cs43l22/cs43l22.o"

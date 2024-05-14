@@ -37,7 +37,9 @@ extern "C" {
 
 #include "../../Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_lcd.h"
 #include "../../Drivers/BSP/STM32F429I-Discovery/stm32f429i_discovery_ts.h"
-
+#include <stdlib.h>
+#define _OPEN_SYS_ITOA_EXT
+#include <stdio.h>
 
 /* USER CODE END Includes */
 
