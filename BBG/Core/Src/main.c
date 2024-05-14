@@ -149,19 +149,20 @@ int main(void)
   }*/
   Touchscreen_Calibration();
   BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
-  BSP_LCD_Clear(LCD_COLOR_RED);
+  BSP_LCD_Clear(LCD_COLOR_GREEN); //
   BSP_LCD_SetBackColor(LCD_COLOR_BLACK);
   BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
   polozenie_x=BSP_LCD_GetXSize()/2;
 
 
 
+
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
-  //MX_FREERTOS_Init();
+  MX_FREERTOS_Init();
   /* Start scheduler */
-  //osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -184,10 +185,10 @@ int main(void)
 		  //BSP_LCD_FillRect(BSP_LCD_GetXSize()/4, BSP_LCD_GetYSize()/2, BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize());
 		  //BSP_LCD_FillRect((x), (y), 20, 10);
 		  BSP_LCD_SetTextColor(LCD_COLOR_RED);
-		  		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
-		  		  polozenie_x--;
-		  		  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-		  		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
+		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
+		  polozenie_x--;
+		  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
 
 	  }
 	  else if ((TS_State.TouchDetected) & ( x > BSP_LCD_GetXSize()/2 ) & ( x < BSP_LCD_GetXSize())){
@@ -200,7 +201,7 @@ int main(void)
 		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
 
 	  }
-	  //BSP_LCD_SelectLayer(1);
+	  BSP_LCD_SelectLayer(1);
 	  itoa(x,buffer,10);
 	  	  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 80, (uint8_t*)"X:", LEFT_MODE);
 	  	  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 80, (uint8_t*)buffer, CENTER_MODE);
