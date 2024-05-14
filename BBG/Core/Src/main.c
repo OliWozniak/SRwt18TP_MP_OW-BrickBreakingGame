@@ -112,6 +112,10 @@ int main(void)
   int polozenie_x;
   int polozenie_y=10;
 
+  // klocki
+  int wysokosc = 5;
+  int szerokosc = 10;
+
   BSP_LCD_Init();
   BSP_LCD_LayerDefaultInit(1, LCD_FRAME_BUFFER_LAYER1);
   BSP_LCD_SelectLayer(1);
@@ -149,10 +153,17 @@ int main(void)
   }*/
   Touchscreen_Calibration();
   BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
-  BSP_LCD_Clear(LCD_COLOR_GREEN); //
+  BSP_LCD_Clear(LCD_COLOR_RED); //
   BSP_LCD_SetBackColor(LCD_COLOR_BLACK);
   BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
   polozenie_x=BSP_LCD_GetXSize()/2;
+  //BSP_LCD_DisplayStringAt(0, 100, (uint8_t *)"Hello, world!", CENTER_MODE);
+
+  BSP_LCD_SetBackColor(LCD_COLOR_YELLOW); // Ustaw kolor tła na żółty
+      for (int i = 0; i < 5; i++) {
+          uint16_t x = i * 10; // Oblicz pozycję X dla każdego klocka
+          BSP_LCD_FillRect(x, 0, 10, 5); // Narysuj prostokąt (klocek) o zadanej szerokości i wysokości
+      }
 
 
 
@@ -169,46 +180,55 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  TS_StateTypeDef  TS_State;
+	   uint16_t x = 0, y = 0; // Zmienne na współrzędne X i Y
+	   BSP_TS_GetState(&TS_State);
+	          if (TS_State.TouchDetected !=0) {
+	              x = TS_State.X; // Pierwszy punkt dotknięcia
+	              y = TS_State.Y;
+	              // Tutaj możesz wykorzystać współrzędne x i y do dalszej obróbki
+	          }
 
-	  static uint32_t x = 0, y = 0;
-	  static TS_StateTypeDef  TS_State;
-	  BSP_TS_GetState(&TS_State);
-	  x = Calibration_GetX(TS_State.X);
-	  y = Calibration_GetY(TS_State.Y);
 
-
-	  if (TS_State.TouchDetected){
-		  //BSP_LCD_SelectLayer(0);
-		  //BSP_LCD_Clear(LCD_COLOR_BLUE);
-		  //BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-	  if ((TS_State.TouchDetected) & ( x > 0 ) & ( x < BSP_LCD_GetXSize()/2)){
-		  //BSP_LCD_FillRect(BSP_LCD_GetXSize()/4, BSP_LCD_GetYSize()/2, BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize());
-		  //BSP_LCD_FillRect((x), (y), 20, 10);
-		  BSP_LCD_SetTextColor(LCD_COLOR_RED);
-		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
-		  polozenie_x--;
-		  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
-
-	  }
-	  else if ((TS_State.TouchDetected) & ( x > BSP_LCD_GetXSize()/2 ) & ( x < BSP_LCD_GetXSize())){
-		  //BSP_LCD_FillRect((3*(BSP_LCD_GetXSize())/4), BSP_LCD_GetYSize()/2, BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize());
-		  //BSP_LCD_FillRect((x), (y), 10, 20);
-		  BSP_LCD_SetTextColor(LCD_COLOR_RED);
-		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
-		  polozenie_x++;
-		  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-		  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
-
-	  }
-	  BSP_LCD_SelectLayer(1);
-	  itoa(x,buffer,10);
-	  	  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 80, (uint8_t*)"X:", LEFT_MODE);
-	  	  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 80, (uint8_t*)buffer, CENTER_MODE);
-	  	  itoa (y,buffer,10);
-	  	  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 112, (uint8_t*)"Y:", LEFT_MODE);
-	  	  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 112, (uint8_t*)buffer, CENTER_MODE);
-	  }
+//
+//	  static uint32_t x = 0, y = 0;
+//	  static TS_StateTypeDef  TS_State;
+//	  BSP_TS_GetState(&TS_State);
+//	  x = Calibration_GetX(TS_State.X);
+//	  y = Calibration_GetY(TS_State.Y);
+//
+//	  if (TS_State.TouchDetected){
+////	  BSP_LCD_SelectLayer(0);
+////		  BSP_LCD_Clear(LCD_COLOR_BLUE);
+////		  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+//		  if ((TS_State.TouchDetected) & ( x > 0 ) & ( x < BSP_LCD_GetXSize()/2)){
+//			  //BSP_LCD_FillRect(BSP_LCD_GetXSize()/4, BSP_LCD_GetYSize()/2, BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize());
+//			  //BSP_LCD_FillRect((x), (y), 20, 10);
+//			  BSP_LCD_SetTextColor(LCD_COLOR_RED);
+//			  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
+//			  polozenie_x--;
+//			  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+//			  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
+//
+//		  }
+//		  else if ((TS_State.TouchDetected) & ( x > BSP_LCD_GetXSize()/2 ) & ( x < BSP_LCD_GetXSize())){
+//			  //BSP_LCD_FillRect((3*(BSP_LCD_GetXSize())/4), BSP_LCD_GetYSize()/2, BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize());
+//			  //BSP_LCD_FillRect((x), (y), 10, 20);
+//			  BSP_LCD_SetTextColor(LCD_COLOR_RED);
+//			  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
+//			  polozenie_x++;
+//			  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+//			  BSP_LCD_FillRect((polozenie_x), (polozenie_y), 20, 10);
+//
+//		  }
+//		  BSP_LCD_SelectLayer(1);
+//		  itoa(x,buffer,10);
+//			  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 80, (uint8_t*)"X:", LEFT_MODE);
+//			  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 80, (uint8_t*)buffer, CENTER_MODE);
+//			  itoa (y,buffer,10);
+//			  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 112, (uint8_t*)"Y:", LEFT_MODE);
+//			  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()- 112, (uint8_t*)buffer, CENTER_MODE);
+//		  }
 
 	  HAL_Delay(5);
 
