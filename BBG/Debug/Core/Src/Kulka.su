@@ -1,0 +1,5 @@
+Kulka.cpp:3:1:Kulka::Kulka()	16	static
+Kulka.cpp:7:6:void Kulka::ruch()	16	static
+Kulka.cpp:12:5:int Kulka::getPolozenieX()	16	static
+Kulka.cpp:16:5:int Kulka::getPolozenieY()	16	static
+Kulka.cpp:20:5:int Kulka::getPromien()	16	static

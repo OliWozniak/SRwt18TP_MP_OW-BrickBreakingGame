@@ -1,3 +1,7 @@
+"Core/Src/BBG.o"
+"Core/Src/Klocek.o"
+"Core/Src/Kulka.o"
+"Core/Src/Platforma.o"
 "Core/Src/crc.o"
 "Core/Src/dma2d.o"
 "Core/Src/fmc.o"
