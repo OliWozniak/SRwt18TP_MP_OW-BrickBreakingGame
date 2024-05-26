@@ -1,20 +1,20 @@
 #ifndef KULKA_H
 #define KULKA_H
 
-class Kulka {
-private:
+// Definicja struktury Kulka
+typedef struct {
     int polozenie_x;
     int polozenie_y;
     int promien;
     int predkosc_x;
     int predkosc_y;
+} Kulka;
 
-public:
-    Kulka();
-    void ruch();
-    int getPolozenieX();
-    int getPolozenieY();
-    int getPromien();
-};
+// Deklaracje funkcji operujących na strukturze Kulka
+void Kulka_init(Kulka* kulka);
+void Kulka_ruch(Kulka* kulka);
+int Kulka_getPolozenieX(const Kulka* kulka);
+int Kulka_getPolozenieY(const Kulka* kulka);
+int Kulka_getPromien(const Kulka* kulka);
 
-#endif
+#endif // KULKA_H

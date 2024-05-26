@@ -34,6 +34,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include "klocek.h"
+#include "Kulka.h"
+#include "Platforma.h"
+#include "BBG.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -154,28 +158,35 @@ int main(void)
   polozenie_x = (BSP_LCD_GetXSize() / 2 ) - (szerekosc_platformy / 2 );
   polozenie_y = BSP_LCD_GetYSize() - 30;
 
+	Klocek klocek;
 
+	Klocek_init(&klocek, 100, 50, 50, 50, LCD_COLOR_BLUE);
+
+//			itoa(klocek.pozycja_x, buffer, 10);
+//			BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+//			BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
+//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
+//
+//			itoa(klocek.pozycja_y, buffer, 10);
+//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
+//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
 
    //rysowanie klockow
-  for (int i = 0; i < liczba_klockow; i++) {
-  		// rysowanie klockow na przemian kolorami
-  		if (i % 2 == 0){
-  			BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-  		}
-  		else{
-  			BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  		}
+//  for (int i = 0; i < liczba_klockow; i++) {
+//  		// rysowanie klockow na przemian kolorami
+//  		if (i % 2 == 0){
+//  			BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
+//  		}
+//  		else{
+//  			BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+//  		}
+//
+//  		BSP_LCD_FillRect(i * (szerokosc_klocka), 30, szerokosc_klocka, wysokosc_klocka);
+//
+//   }
 
-  		BSP_LCD_FillRect(i * (szerokosc_klocka), 30, szerokosc_klocka, wysokosc_klocka);
 
-   }
-
-  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_FillRect(polozenie_x, polozenie_y, szerekosc_platformy, wysokosc_platformy);
-
-  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  BSP_LCD_DrawCircle(polozenie_kulki_x, polozenie_kulki_x, promien_kulki);
-  BSP_LCD_FillCircle(polozenie_kulki_x, polozenie_y, promien_kulki);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -188,87 +199,87 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		if (polozenie_kulki_x +  promien_kulki > BSP_LCD_GetXSize()){
-			polozenie_kulki_x = BSP_LCD_GetXSize() - promien_kulki ;
-			predkosc_kulki_x *= -1;
-		}
-		else if (polozenie_kulki_x < 0){
-		  polozenie_kulki_x =  promien_kulki;
-		  predkosc_kulki_x *= -1;
-		}
-
-		if (polozenie_kulki_y +  promien_kulki > BSP_LCD_GetYSize()){
-			polozenie_kulki_y = BSP_LCD_GetYSize() - promien_kulki;
-			predkosc_kulki_y *= -1;
-		}
-		else if(polozenie_kulki_y < 2 * promien_kulki){
-			 polozenie_kulki_y = 2 * promien_kulki;
-			 predkosc_kulki_y *= -1;
-		}
-
-		BSP_LCD_SetTextColor(LCD_COLOR_RED);
-		BSP_LCD_DrawCircle(polozenie_kulki_x, polozenie_kulki_y , promien_kulki);
-		BSP_LCD_FillCircle(polozenie_kulki_x, polozenie_kulki_y , promien_kulki);
-
-		polozenie_kulki_x += predkosc_kulki_x;
-		polozenie_kulki_y += predkosc_kulki_y;
-
-		BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-		BSP_LCD_DrawCircle(polozenie_kulki_x + predkosc_kulki_x, polozenie_kulki_y + predkosc_kulki_y, promien_kulki);
-		BSP_LCD_FillCircle(polozenie_kulki_x + predkosc_kulki_x, polozenie_kulki_y + predkosc_kulki_y, promien_kulki);
-
-//		itoa(polozenie_kulki_x, buffer, 10);
-//		BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+//		if (polozenie_kulki_x +  promien_kulki > BSP_LCD_GetXSize()){
+//			polozenie_kulki_x = BSP_LCD_GetXSize() - promien_kulki ;
+//			predkosc_kulki_x *= -1;
+//		}
+//		else if (polozenie_kulki_x < 0){
+//		  polozenie_kulki_x =  promien_kulki;
+//		  predkosc_kulki_x *= -1;
+//		}
+//
+//		if (polozenie_kulki_y +  promien_kulki > BSP_LCD_GetYSize()){
+//			polozenie_kulki_y = BSP_LCD_GetYSize() - promien_kulki;
+//			predkosc_kulki_y *= -1;
+//		}
+//		else if(polozenie_kulki_y < 2 * promien_kulki){
+//			 polozenie_kulki_y = 2 * promien_kulki;
+//			 predkosc_kulki_y *= -1;
+//		}
+//
+//		BSP_LCD_SetTextColor(LCD_COLOR_RED);
+//		BSP_LCD_DrawCircle(polozenie_kulki_x, polozenie_kulki_y , promien_kulki);
+//		BSP_LCD_FillCircle(polozenie_kulki_x, polozenie_kulki_y , promien_kulki);
+//
+//		polozenie_kulki_x += predkosc_kulki_x;
+//		polozenie_kulki_y += predkosc_kulki_y;
+//
 //		BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-//		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
-//		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
-//		itoa(polozenie_kulki_y, buffer, 10);
-//		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
-//		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
-
-      uint32_t prev_x = polozenie_x;
-      uint32_t prev_y = polozenie_y;
-
-      // Get touch state
-      TS_StateTypeDef  TS_State;
-      BSP_TS_GetState(&TS_State);
-
-      if (TS_State.TouchDetected) {
-          uint32_t x = Calibration_GetX(TS_State.X);
-          uint32_t y = Calibration_GetY(TS_State.Y);
-
-          // Update platform position based on touch input
-          if ((x < BSP_LCD_GetXSize() / 2 ) &( x > 0)) {
-              polozenie_x = max(0, polozenie_x - dlugosc_kroku);  // Move left
-          } else if ((x > BSP_LCD_GetXSize() / 2) & (x <  BSP_LCD_GetXSize())) {
-              polozenie_x = min(BSP_LCD_GetXSize() - szerekosc_platformy, polozenie_x + dlugosc_kroku);  // Move right
-          }
-
-          BSP_LCD_SetTextColor(LCD_COLOR_RED);
-          BSP_LCD_FillRect(prev_x, prev_y, szerekosc_platformy + dlugosc_kroku, wysokosc_platformy);
-
-          BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-          BSP_LCD_FillRect(polozenie_x, polozenie_y, szerekosc_platformy, wysokosc_platformy);
-          // Update previous position
-          prev_x = polozenie_x;
-          prev_y = polozenie_y;
-
-          // wyswietlanie wspolrzdnych punktu dotyku
-//          itoa(x, buffer, 10);
-//          BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-//          BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-//          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
-//          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
-//          itoa(y, buffer, 10);
-//          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
-//          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
-
-      }
-
-      HAL_Delay(odswiezanie);
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+//		BSP_LCD_DrawCircle(polozenie_kulki_x + predkosc_kulki_x, polozenie_kulki_y + predkosc_kulki_y, promien_kulki);
+//		BSP_LCD_FillCircle(polozenie_kulki_x + predkosc_kulki_x, polozenie_kulki_y + predkosc_kulki_y, promien_kulki);
+//
+////		itoa(polozenie_kulki_x, buffer, 10);
+////		BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+////		BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
+////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
+////		itoa(polozenie_kulki_y, buffer, 10);
+////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
+////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
+//
+//      uint32_t prev_x = polozenie_x;
+//      uint32_t prev_y = polozenie_y;
+//
+//      // Get touch state
+//      TS_StateTypeDef  TS_State;
+//      BSP_TS_GetState(&TS_State);
+//
+//      if (TS_State.TouchDetected) {
+//          uint32_t x = Calibration_GetX(TS_State.X);
+//          uint32_t y = Calibration_GetY(TS_State.Y);
+//
+//          // Update platform position based on touch input
+//          if ((x < BSP_LCD_GetXSize() / 2 ) &( x > 0)) {
+//              polozenie_x = max(0, polozenie_x - dlugosc_kroku);  // Move left
+//          } else if ((x > BSP_LCD_GetXSize() / 2) & (x <  BSP_LCD_GetXSize())) {
+//              polozenie_x = min(BSP_LCD_GetXSize() - szerekosc_platformy, polozenie_x + dlugosc_kroku);  // Move right
+//          }
+//
+//          BSP_LCD_SetTextColor(LCD_COLOR_RED);
+//          BSP_LCD_FillRect(prev_x, prev_y, szerekosc_platformy + dlugosc_kroku, wysokosc_platformy);
+//
+//          BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+//          BSP_LCD_FillRect(polozenie_x, polozenie_y, szerekosc_platformy, wysokosc_platformy);
+//          // Update previous position
+//          prev_x = polozenie_x;
+//          prev_y = polozenie_y;
+//
+//          // wyswietlanie wspolrzdnych punktu dotyku
+////          itoa(x, buffer, 10);
+////          BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+////          BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
+////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
+////          itoa(y, buffer, 10);
+////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
+////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
+//
+//      }
+//
+//      HAL_Delay(odswiezanie);
+//    /* USER CODE END WHILE */
+//
+//    /* USER CODE BEGIN 3 */
   }
 
   /* USER CODE END 3 */

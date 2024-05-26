@@ -1,17 +1,6 @@
-ts_calibration.c:77:6:void Touchscreen_Calibration()	24	static
-ts_calibration.c:126:13:void TouchscreenCalibration_SetHint()	8	static
-ts_calibration.c:149:13:void GetPhysValues(int16_t, int16_t, int16_t*, int16_t*)	24	static
-ts_calibration.c:175:13:void WaitForPressedState(uint8_t)	32	static
-ts_calibration.c:206:10:uint16_t Calibration_GetX(uint16_t)	16	static
-ts_calibration.c:216:10:uint16_t Calibration_GetY(uint16_t)	16	static
-ts_calibration.c:226:9:uint8_t IsCalibrationDone()	4	static
-BBG.cpp:7:1:BBG::BBG()	16	static
-BBG.cpp:12:6:void BBG::obsluzDotykEkranu()	32	static
-BBG.cpp:27:6:void BBG::ruchKulki()	16	static
-BBG.cpp:33:6:void BBG::ruchPlatformy(int)	16	static
-BBG.cpp:37:6:void BBG::rysuj()	16	static
-stl_vector.h:259:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = Klocek; _Alloc = std::allocator<Klocek>]	16	static
-stl_vector.h:126:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = Klocek; _Alloc = std::allocator<Klocek>]	16	static
-stl_vector.h:88:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = Klocek; _Alloc = std::allocator<Klocek>]	16	static
-allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = Klocek]	16	static
-new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = Klocek]	16	static
+bbg.c:13:6:BBG_init	32	static
+bbg.c:30:6:BBG_deinit	16	static
+bbg.c:35:6:BBG_obsluzDotykEkranu	16	static
+bbg.c:41:6:BBG_ruchKulki	16	static
+bbg.c:47:6:BBG_ruchPlatformy	16	static
+bbg.c:53:6:BBG_rysuj	24	static

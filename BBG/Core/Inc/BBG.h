@@ -4,21 +4,23 @@
 #include "Platforma.h"
 #include "Klocek.h"
 #include "Kulka.h"
-#include <vector>
 #include "main.h"
+#include <stdbool.h>
 
-class BBG {
-private:
+// Definicja struktury BBG
+typedef struct {
     Platforma platforma;
-    std::vector<Klocek> klocki;
+    Klocek* klocki;
+    int liczbaKlockow;
     Kulka kulka;
+} BBG;
 
-public:
-    BBG();
-    void obsluzDotykEkranu();
-    void ruchKulki();
-    void ruchPlatformy(int x);
-    void rysuj();
-};
+// Deklaracje funkcji operujących na strukturze BBG
+void BBG_init(BBG* bbg);
+void BBG_deinit(BBG* bbg);
+void BBG_obsluzDotykEkranu(BBG* bbg);
+void BBG_ruchKulki(BBG* bbg);
+void BBG_ruchPlatformy(BBG* bbg, int x);
+void BBG_rysuj(const BBG* bbg);
 
-#endif
+#endif // BBG_H
