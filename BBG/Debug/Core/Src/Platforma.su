@@ -1,7 +1,8 @@
-platforma.c:11:6:Platforma_init	16	static
-platforma.c:20:6:Platforma_przesunLewo	16	static
-platforma.c:25:6:Platforma_przesunPrawo	16	static
-platforma.c:30:5:Platforma_getPolozenieX	16	static
-platforma.c:35:5:Platforma_getPolozenieY	16	static
-platforma.c:40:5:Platforma_getSzerokosc	16	static
-platforma.c:45:5:Platforma_getWysokosc	16	static
+platforma.c:12:6:Platforma_init	24	static
+platforma.c:20:6:rysuj_platforme	16	static
+platforma.c:27:6:Platforma_przesunLewo	16	static
+platforma.c:32:6:Platforma_przesunPrawo	16	static
+platforma.c:37:5:Platforma_getPolozenieX	16	static
+platforma.c:42:5:Platforma_getPolozenieY	16	static
+platforma.c:47:5:Platforma_getSzerokosc	16	static
+platforma.c:52:5:Platforma_getWysokosc	16	static

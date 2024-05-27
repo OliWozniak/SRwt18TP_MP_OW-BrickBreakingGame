@@ -9,15 +9,14 @@
 
 // Definicja struktury BBG
 typedef struct {
-    Platforma platforma;
-    Klocek* klocki;
-    int liczbaKlockow;
-    Kulka kulka;
+    Platforma * platforma;
+    Klocek ** klocki;
+    Kulka * kulka;
+    int liczba_klockow;
 } BBG;
 
 // Deklaracje funkcji operujących na strukturze BBG
-void BBG_init(BBG* bbg);
-void BBG_deinit(BBG* bbg);
+void BBG_init(BBG* bbg , Platforma * platforma, Klocek ** klocki, Kulka * kulka, int lkl);
 void BBG_obsluzDotykEkranu(BBG* bbg);
 void BBG_ruchKulki(BBG* bbg);
 void BBG_ruchPlatformy(BBG* bbg, int x);

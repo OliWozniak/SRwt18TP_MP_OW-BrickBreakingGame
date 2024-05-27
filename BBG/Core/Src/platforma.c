@@ -6,14 +6,21 @@
  */
 
 #include "Platforma.h"
+#include "main.h"
 
 // Inicjalizacja struktury Platforma
-void Platforma_init(Platforma* platforma) {
-    platforma->polozenie_x = 0;
-    platforma->polozenie_y = 0;
-    platforma->szerokosc = 0;
-    platforma->wysokosc = 0;
-    platforma->krok = 0;
+void Platforma_init(Platforma* platforma, int x, int y ,int w, int h, int k, uint32_t kol) {
+    platforma->polozenie_x = x;
+    platforma->polozenie_y = y;
+    platforma->szerokosc = w;
+    platforma->wysokosc = h;
+    platforma->krok = k;
+    platforma->kolor = kol;
+}
+void rysuj_platforme(Platforma* platforma)
+{
+	BSP_LCD_SetTextColor(platforma->kolor);
+	BSP_LCD_FillRect(platforma->polozenie_x, platforma->polozenie_y, platforma->szerokosc, platforma->wysokosc);
 }
 
 // Przesunięcie platformy w lewo

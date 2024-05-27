@@ -34,6 +34,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <stdlib.h>
 #include "klocek.h"
 #include "Kulka.h"
 #include "Platforma.h"
@@ -85,21 +86,7 @@ int _write(int fd, char* ptr, int len) {
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	static char buffer [sizeof(int)*8+1];
-	static  int polozenie_x;
-	static  int polozenie_y;
-	static  int liczba_klockow = 6 ;
-	static int szerokosc_klocka = 30;
-	static int wysokosc_klocka = 10;
-	static int wysokosc_platformy = 10;
-	static int szerekosc_platformy = 50;
-	static int dlugosc_kroku = 5;
-	static int odswiezanie = 16;
-	static int promien_kulki = 5;
-	static int predkosc_kulki_x = 1;
-	static int predkosc_kulki_y = 2;
-	static int polozenie_kulki_x = 35;
-	static int polozenie_kulki_y = 55 ;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -155,92 +142,59 @@ int main(void)
     BSP_LCD_SetBackColor(LCD_COLOR_BLACK);
     BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
 
-  polozenie_x = (BSP_LCD_GetXSize() / 2 ) - (szerekosc_platformy / 2 );
-  polozenie_y = BSP_LCD_GetYSize() - 30;
+    // kulka
+    int kulka_pocz_x = 100;
+    int kulka_pocz_y = 250;
+    int kulka_r = 8;
+    int kulka_vx = 1;
+    int kulka_vy = 1;
+    uint32_t kulka_kolor = LCD_COLOR_BLACK;
 
-	Klocek klocek;
+    // platforma
+    int platforma_x = 120;
+    int platforma_y = 300;
+    int platforma_krok = 5;
+    int platforma_wysokosc = 10;
+    int platforma_szerokosc = 50;
+    uint32_t platforma_kolor = LCD_COLOR_YELLOW;
 
-	Klocek_init(&klocek, 100, 50, 50, 50, LCD_COLOR_BLUE);
+    // klocek
+    int klocek_szerokosc = 30;
+    int klocek_wysokosc = 10;
+    int liczba_klockow = 10;
 
-//			itoa(klocek.pozycja_x, buffer, 10);
-//			BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-//			BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
-//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
-//
-//			itoa(klocek.pozycja_y, buffer, 10);
-//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
-//			BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
+	Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
+	Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
+    Klocek** klocki = (Klocek**)malloc(liczba_klockow * sizeof(Klocek*));
+    for (int i = 0; i < liczba_klockow; i++) {
+        klocki[i] = (Klocek*)malloc(sizeof(Klocek));
+        uint32_t kolor_klocka = i % 2 == 0 ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
+        Klocek_init(klocki[i], i * klocek_szerokosc, klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
+    }
 
-   //rysowanie klockow
-//  for (int i = 0; i < liczba_klockow; i++) {
-//  		// rysowanie klockow na przemian kolorami
-//  		if (i % 2 == 0){
-//  			BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-//  		}
-//  		else{
-//  			BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-//  		}
-//
-//  		BSP_LCD_FillRect(i * (szerokosc_klocka), 30, szerokosc_klocka, wysokosc_klocka);
-//
-//   }
 
+	//Klocek* klocek = (Klocek*)malloc(sizeof(Klocek));
+
+    Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
+    Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
+//    Klocek_init(klocek, klocek_, 0, 10, 5);
+
+	BBG bbg;
+	BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
 
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
-
+  //MX_FREERTOS_Init();
   /* Start scheduler */
-
+  //osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//		if (polozenie_kulki_x +  promien_kulki > BSP_LCD_GetXSize()){
-//			polozenie_kulki_x = BSP_LCD_GetXSize() - promien_kulki ;
-//			predkosc_kulki_x *= -1;
-//		}
-//		else if (polozenie_kulki_x < 0){
-//		  polozenie_kulki_x =  promien_kulki;
-//		  predkosc_kulki_x *= -1;
-//		}
-//
-//		if (polozenie_kulki_y +  promien_kulki > BSP_LCD_GetYSize()){
-//			polozenie_kulki_y = BSP_LCD_GetYSize() - promien_kulki;
-//			predkosc_kulki_y *= -1;
-//		}
-//		else if(polozenie_kulki_y < 2 * promien_kulki){
-//			 polozenie_kulki_y = 2 * promien_kulki;
-//			 predkosc_kulki_y *= -1;
-//		}
-//
-//		BSP_LCD_SetTextColor(LCD_COLOR_RED);
-//		BSP_LCD_DrawCircle(polozenie_kulki_x, polozenie_kulki_y , promien_kulki);
-//		BSP_LCD_FillCircle(polozenie_kulki_x, polozenie_kulki_y , promien_kulki);
-//
-//		polozenie_kulki_x += predkosc_kulki_x;
-//		polozenie_kulki_y += predkosc_kulki_y;
-//
-//		BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-//		BSP_LCD_DrawCircle(polozenie_kulki_x + predkosc_kulki_x, polozenie_kulki_y + predkosc_kulki_y, promien_kulki);
-//		BSP_LCD_FillCircle(polozenie_kulki_x + predkosc_kulki_x, polozenie_kulki_y + predkosc_kulki_y, promien_kulki);
-//
-////		itoa(polozenie_kulki_x, buffer, 10);
-////		BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-////		BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
-////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
-////		itoa(polozenie_kulki_y, buffer, 10);
-////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
-////		BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
-//
-//      uint32_t prev_x = polozenie_x;
-//      uint32_t prev_y = polozenie_y;
-//
-//      // Get touch state
+// 		Get touch state
 //      TS_StateTypeDef  TS_State;
 //      BSP_TS_GetState(&TS_State);
 //
@@ -254,33 +208,20 @@ int main(void)
 //          } else if ((x > BSP_LCD_GetXSize() / 2) & (x <  BSP_LCD_GetXSize())) {
 //              polozenie_x = min(BSP_LCD_GetXSize() - szerekosc_platformy, polozenie_x + dlugosc_kroku);  // Move right
 //          }
-//
-//          BSP_LCD_SetTextColor(LCD_COLOR_RED);
-//          BSP_LCD_FillRect(prev_x, prev_y, szerekosc_platformy + dlugosc_kroku, wysokosc_platformy);
-//
-//          BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-//          BSP_LCD_FillRect(polozenie_x, polozenie_y, szerekosc_platformy, wysokosc_platformy);
-//          // Update previous position
-//          prev_x = polozenie_x;
-//          prev_y = polozenie_y;
-//
-//          // wyswietlanie wspolrzdnych punktu dotyku
-////          itoa(x, buffer, 10);
-////          BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-////          BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
-////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)buffer, CENTER_MODE);
-////          itoa(y, buffer, 10);
-////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
-////          BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)buffer, CENTER_MODE);
-//
+
 //      }
 //
 //      HAL_Delay(odswiezanie);
-//    /* USER CODE END WHILE */
-//
-//    /* USER CODE BEGIN 3 */
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   }
+  for (int i = 0; i < liczba_klockow; i++) {
+	  free(klocki[i]);
+  }
+  free(klocki);
+  free(platforma);
+  free(kulka);
 
   /* USER CODE END 3 */
 }

@@ -6,7 +6,6 @@
  */
 
 #include "klocek.h"
-#include <stdio.h>
 #include "main.h"
 
 
@@ -17,28 +16,17 @@ void Klocek_init(Klocek* k, int x, int y, int w, int h, uint32_t kol) {
     k->szerokosc = w;
     k->wysokosc = h;
     k->kolor = kol;
-
-    BSP_LCD_SetTextColor(kol);
-	BSP_LCD_FillRect(k->pozycja_x, k->pozycja_y, k->szerokosc, k->wysokosc);
-
-
-	BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-	BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-	BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)"X:", LEFT_MODE);
-	BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 80, (uint8_t*)k->pozycja_x, CENTER_MODE);
-
-
-	BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*)"Y:", LEFT_MODE);
-	BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() - 112, (uint8_t*) k->pozycja_y, CENTER_MODE);
 }
 
+void rysuj_klocek(Klocek* k){
+	BSP_LCD_SetTextColor(k->kolor);
+	BSP_LCD_FillRect(k->pozycja_x, k->pozycja_y, k->szerokosc, k->wysokosc);
+}
 // Ustawienie pozycji klocka
 void Klocek_ustawPozycje(Klocek* k, int x, int y) {
     k->pozycja_x = x;
     k->pozycja_y = y;
 }
-
-
 
 // Sprawdzenie kolizji
 bool Klocek_czyKolizja(const Klocek* k, int x, int y, int promien) {

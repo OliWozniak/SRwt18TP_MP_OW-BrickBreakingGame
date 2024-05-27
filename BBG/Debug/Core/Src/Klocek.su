@@ -1,3 +1,4 @@
-klocek.c:14:6:Klocek_init	24	static
-klocek.c:36:6:Klocek_ustawPozycje	24	static
-klocek.c:44:6:Klocek_czyKolizja	40	static
+klocek.c:13:6:Klocek_init	24	static
+klocek.c:21:6:rysuj_klocek	16	static
+klocek.c:26:6:Klocek_ustawPozycje	24	static
+klocek.c:32:6:Klocek_czyKolizja	40	static

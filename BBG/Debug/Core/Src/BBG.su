@@ -1,6 +1,4 @@
-bbg.c:13:6:BBG_init	32	static
-bbg.c:30:6:BBG_deinit	16	static
-bbg.c:35:6:BBG_obsluzDotykEkranu	16	static
-bbg.c:41:6:BBG_ruchKulki	16	static
-bbg.c:47:6:BBG_ruchPlatformy	16	static
-bbg.c:53:6:BBG_rysuj	24	static
+bbg.c:13:6:BBG_init	48	static
+bbg.c:30:6:BBG_obsluzDotykEkranu	16	static
+bbg.c:36:6:BBG_ruchKulki	16	static
+bbg.c:42:6:BBG_ruchPlatformy	16	static

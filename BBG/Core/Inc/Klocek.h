@@ -9,7 +9,7 @@
 #define INC_KLOCEK_H_
 
 #include <stdbool.h>
-#include <stdint.h>
+#include <stdio.h>
 
 // Definicja struktury Klocek
 typedef struct {
@@ -21,7 +21,8 @@ typedef struct {
 } Klocek;
 
 // Deklaracje funkcji operujących na strukturze Klocek
-void Klocek_init(Klocek* k, int x, int y, int w, int h,uint32_t kol);
+void Klocek_init(Klocek* k, int x, int y, int w, int h, uint32_t kol);
+void rysuj_klocek(Klocek* k);
 void Klocek_ustawPozycje(Klocek* k, int x, int y);
 bool Klocek_czyKolizja(const Klocek* k, int x, int y, int promien);
 

@@ -7,16 +7,22 @@
 
 
 #include "Kulka.h"
+#include "main.h"
 
 // Inicjalizacja struktury Kulka
-void Kulka_init(Kulka* kulka) {
-    kulka->polozenie_x = 0;
-    kulka->polozenie_y = 0;
-    kulka->promien = 0;
-    kulka->predkosc_x = 0;
-    kulka->predkosc_y = 0;
+void Kulka_init(Kulka* kulka, int x, int y, int r, int vx, int vy, uint32_t kol) {
+    kulka->polozenie_x = x;
+    kulka->polozenie_y = y;
+    kulka->promien = r;
+    kulka->predkosc_x = vx;
+    kulka->predkosc_y = vy;
+    kulka->kolor = kol;
 }
 
+void rysuj_kulke(Kulka* kulka){
+	BSP_LCD_SetTextColor(kulka->kolor);
+	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
+}
 // Ruch kulki
 void Kulka_ruch(Kulka* kulka) {
     kulka->polozenie_x += kulka->predkosc_x;

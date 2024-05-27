@@ -1,6 +1,7 @@
 #ifndef PLATFORMA_H
 #define PLATFORMA_H
 
+#include <stdio.h>
 // Definicja struktury Platforma
 typedef struct {
     int polozenie_x;
@@ -8,10 +9,12 @@ typedef struct {
     int szerokosc;
     int wysokosc;
     int krok;
+    uint32_t kolor;
 } Platforma;
 
 // Deklaracje funkcji operujących na strukturze Platforma
-void Platforma_init(Platforma* platforma);
+void Platforma_init(Platforma* platforma, int x, int y ,int w, int h, int k, uint32_t kol);
+void rysuj_platforme(Platforma* platforma);
 void Platforma_przesunLewo(Platforma* platforma);
 void Platforma_przesunPrawo(Platforma* platforma);
 int Platforma_getPolozenieX(const Platforma* platforma);
