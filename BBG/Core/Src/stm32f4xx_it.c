@@ -87,7 +87,7 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-
+	BSP_LCD_Clear(0xFF000000); // czarny
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
@@ -107,6 +107,7 @@ void MemManage_Handler(void)
   while (1)
   {
     /* USER CODE BEGIN W1_MemoryManagement_IRQn 0 */
+	  BSP_LCD_Clear(0xFFFFFF00); // zolty
     /* USER CODE END W1_MemoryManagement_IRQn 0 */
   }
 }

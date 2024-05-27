@@ -10,21 +10,37 @@
 #include <stdio.h>
 #include "main.h"
 
+//void BBG_init(BBG* bbg, Platforma * platforma, Klocek ** klocki, Kulka * kulka, int lkl) {
+//
+////	bbg->liczba_klockow = lkl;
+////	bbg->platforma = platforma;
+////	rysuj_platforme(bbg->platforma);
+////
+////	bbg->klocki = klocki;
+////	for (int i = 0; i < bbg->liczba_klockow; i++) {
+////		rysuj_klocek(bbg->klocki[i]);
+////	}
+////
+////	bbg->kulka = kulka;
+////	rysuj_kulke(bbg->kulka);
+//}
+
 void BBG_init(BBG* bbg, Platforma * platforma, Klocek ** klocki, Kulka * kulka, int lkl) {
+    bbg->liczba_klockow = lkl;
+    bbg->platforma = platforma;
+    rysuj_platforme(bbg->platforma);
 
-	bbg->liczba_klockow = lkl;
-	bbg->platforma = platforma;
-	rysuj_platforme(bbg->platforma);
+    bbg->klocki = klocki;
+    for (int i = 0; i < bbg->liczba_klockow; i++) {
+        rysuj_klocek(bbg->klocki[i]);
+    }
 
-	bbg->klocki = klocki;
-	for (int i = 0; i < bbg->liczba_klockow; i++) {
-		    uint32_t kolor = i % 2 == 0 ? LCD_COLOR_YELLOW : LCD_COLOR_BLUE;
-		    Klocek_init(bbg->klocki[i], i * bbg->klocki[i]->szerokosc, 0, bbg->klocki[i]->szerokosc, bbg->klocki[i]->wysokosc,kolor);
-		    rysuj_klocek(bbg->klocki[i]);
-		}
-	bbg->kulka = kulka;
-	rysuj_kulke(bbg->kulka);
+    bbg->kulka = kulka;
+    rysuj_kulke(bbg->kulka);
 }
+
+
+
 
 void BBG_obsluga_zbicia_klocka(BBG* bbg) {
     for (int i = 0; i < bbg->liczba_klockow; i++) {
@@ -39,14 +55,12 @@ void BBG_obsluga_zbicia_klocka(BBG* bbg) {
             bbg->kulka->predkosc_y *= -1;
 
             // zamaluj miejsce zbitego klocka
-//            BSP_LCD_SetBackColor(0xFFFF0000); // czerwony
-//            BSP_LCD_FillRect(bbg->klocki[i]->pozycja_x, bbg->klocki[i]->pozycja_y, bbg->klocki[i]->szerokosc, bbg->klocki[i]->wysokosc);
             BSP_LCD_SetBackColor(LCD_COLOR_RED);
 			BSP_LCD_SetTextColor(LCD_COLOR_RED);
 			BSP_LCD_FillRect(bbg->klocki[i]->pozycja_x, bbg->klocki[i]->pozycja_y, bbg->klocki[i]->szerokosc, bbg->klocki[i]->wysokosc);
 
             // Usuń trafiony klocek z tablicy klocków
-            free(bbg->klocki[i]);
+            //free(bbg->klocki[i]);
 
             // Przesuń pozostałe klocki w tablicy, aby zapełnić lukę po usuniętym klocku
             for (int j = i; j < bbg->liczba_klockow - 1; j++) {

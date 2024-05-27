@@ -13,6 +13,7 @@ typedef struct {
     Klocek ** klocki;
     Kulka * kulka;
     int liczba_klockow;
+    int liczba_warstw;
 } BBG;
 
 // Deklaracje funkcji operujących na strukturze BBG

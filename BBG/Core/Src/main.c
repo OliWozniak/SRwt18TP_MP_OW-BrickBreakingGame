@@ -143,11 +143,11 @@ int main(void)
     BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
 
     // kulka
-    int kulka_pocz_x = 200;
-    int kulka_pocz_y = 300;
+    int kulka_pocz_x = 155;
+    int kulka_pocz_y = 255;
     int kulka_r = 8;
-    int kulka_vx = 1;
-    int kulka_vy = 1;
+    int kulka_vx = -5;
+    int kulka_vy = -5;
     uint32_t kulka_kolor = LCD_COLOR_BLACK;
 
     // platforma
@@ -159,30 +159,58 @@ int main(void)
     uint32_t platforma_kolor = LCD_COLOR_YELLOW;
 
     // klocek
-    int klocek_szerokosc = 30;
-    int klocek_wysokosc = 10;
-    int liczba_klockow = 10;
+//    int klocek_szerokosc = 30;
+//    int klocek_wysokosc = 10;
+//    int liczba_klockow = 16;
+//    int liczba_wierszy = 4;
 
     int odswiezanie = 16; // 1000ms / 16 = 60HZ
 
-	Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
-	Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
+    Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
+    Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
+    int liczba_klockow = 32; // lub inna odpowiednia wartość
+    int klocek_szerokosc = BSP_LCD_GetXSize() / 8; // Zakładając, że chcesz 8 klocków na szerokość ekranu
+    int klocek_wysokosc = BSP_LCD_GetYSize() / (liczba_klockow / 8); // Liczba wierszy klocków
+
     Klocek** klocki = (Klocek**)malloc(liczba_klockow * sizeof(Klocek*));
-    for (int i = 0; i < liczba_klockow; i++) {
-        klocki[i] = (Klocek*)malloc(sizeof(Klocek));
-        uint32_t kolor_klocka = i % 2 == 0 ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
-        Klocek_init(klocki[i], i * klocek_szerokosc, klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
+    int licznik = 0;
+
+    for (int kk = 0; kk < liczba_klockow / 8; kk++) {
+        for (int k = 0; k < 8; k++, licznik++) {
+            klocki[licznik] = (Klocek*)malloc(sizeof(Klocek));
+            uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 1) || (k % 2 == 1 && kk % 2 == 0)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
+            Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
+        }
     }
-
-
-	//Klocek* klocek = (Klocek*)malloc(sizeof(Klocek));
 
     Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
     Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
-//    Klocek_init(klocek, klocek_, 0, 10, 5);
 
-	BBG bbg;
-	BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
+    BBG bbg;
+    BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
+//	Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
+//	Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
+//    Klocek** klocki = (Klocek**)malloc(liczba_klockow * sizeof(Klocek*));
+////    for (int i = 0; i < liczba_klockow; i++) {
+////        klocki[i] = (Klocek*)malloc(sizeof(Klocek));
+////        //uint32_t kolor_klocka = i % 2 == 0 ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
+////       // Klocek_init(klocki[i], i * klocek_szerokosc, klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
+////    }
+//    int licznik = 0;
+//    for (int kk = 0 ; kk = liczba_klockow / 8; kk++){
+//    	for(int k = 0 ; k < 8 ; k++, licznik++){
+//    		klocki[licznik] = (Klocek*)malloc(sizeof(Klocek));
+//    		uint32_t kolor_klocka =  ((k % 2 == 0) && (kk % 2 ==1) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW);
+//    		Klocek_init(klocki[licznik], k * klocek_szerokosc, klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
+//    	}
+//    }
+//
+//    Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
+//    Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
+//
+//
+//	BBG bbg;
+//	BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
 
   /* USER CODE END 2 */
 
@@ -222,12 +250,12 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   }
-  for (int i = 0; i < liczba_klockow; i++) {
-	  free(klocki[i]);
-  }
-  free(klocki);
-  free(platforma);
-  free(kulka);
+//  for (int i = 0; i < liczba_klockow; i++) {
+//	  free(klocki[i]);
+//  }
+//  free(klocki);
+//  free(platforma);
+//  free(kulka);
 
   /* USER CODE END 3 */
 }

@@ -34,14 +34,12 @@ void Kulka_ruch(Kulka* kulka) {
 	if (nowe_polozenie_x - kulka->promien < 0 || nowe_polozenie_x + kulka->promien > BSP_LCD_GetXSize()) {
 		// Zderzenie z lewą lub prawą krawędzią, zmień kierunek prędkości poziomej
 		kulka->predkosc_x = -kulka->predkosc_x;
-		BSP_LCD_Clear(0xFF808080);
 	}
 
 	// Sprawdź zderzenie z górną i dolną krawędzią ekranu
 	if (nowe_polozenie_y - kulka->promien < 0 || nowe_polozenie_y + kulka->promien > BSP_LCD_GetYSize()) {
 		// Zderzenie z górną lub dolną krawędzią, zmień kierunek prędkości pionowej
 		kulka->predkosc_y = -kulka->predkosc_y;
-		BSP_LCD_Clear(0xFF808080);
 	}
 
 	// Aktualizuj położenie kulki na nowe pozycje
