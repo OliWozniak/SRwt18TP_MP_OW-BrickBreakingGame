@@ -25,7 +25,7 @@
 ////	rysuj_kulke(bbg->kulka);
 //}
 
-void BBG_init(BBG* bbg, Platforma * platforma, Klocek ** klocki, Kulka * kulka, int lkl) {
+void BBG_init(BBG* bbg, Platforma *platforma, Klocek **klocki, Kulka *kulka, int lkl) {
     bbg->liczba_klockow = lkl;
     bbg->platforma = platforma;
     rysuj_platforme(bbg->platforma);
