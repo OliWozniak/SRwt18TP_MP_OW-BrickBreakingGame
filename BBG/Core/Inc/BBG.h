@@ -21,5 +21,5 @@ void BBG_obsluzDotykEkranu(BBG* bbg);
 void BBG_ruchKulki(BBG* bbg);
 void BBG_ruchPlatformy(BBG* bbg, int x);
 void BBG_rysuj(const BBG* bbg);
-
+void BBG_obsluga_zbicia_klocka(BBG* bbg);
 #endif // BBG_H

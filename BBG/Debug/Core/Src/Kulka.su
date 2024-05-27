@@ -1,6 +1,6 @@
-kulka.c:13:6:Kulka_init	24	static
-kulka.c:22:6:rysuj_kulke	16	static
-kulka.c:27:6:Kulka_ruch	16	static
-kulka.c:33:5:Kulka_getPolozenieX	16	static
-kulka.c:38:5:Kulka_getPolozenieY	16	static
-kulka.c:43:5:Kulka_getPromien	16	static
+kulka.c:11:6:Kulka_init	24	static
+kulka.c:20:6:rysuj_kulke	16	static
+kulka.c:38:6:Kulka_ruch	32	static
+kulka.c:70:5:Kulka_getPolozenieX	16	static
+kulka.c:75:5:Kulka_getPolozenieY	16	static
+kulka.c:80:5:Kulka_getPromien	16	static

@@ -4,8 +4,6 @@
  *  Created on: 26 maj 2024
  *      Author: marpo
  */
-
-
 #include "Kulka.h"
 #include "main.h"
 
@@ -23,11 +21,38 @@ void rysuj_kulke(Kulka* kulka){
 	BSP_LCD_SetTextColor(kulka->kolor);
 	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
 }
-// Ruch kulki
 void Kulka_ruch(Kulka* kulka) {
-    kulka->polozenie_x += kulka->predkosc_x;
-    kulka->polozenie_y += kulka->predkosc_y;
+	// Zamaluj stary stan kulki
+	BSP_LCD_SetTextColor(0xFFFF0000); // Czerwony kolor
+	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
+
+	// Oblicz nowe położenie kulki
+	int nowe_polozenie_x = kulka->polozenie_x + kulka->predkosc_x;
+	int nowe_polozenie_y = kulka->polozenie_y + kulka->predkosc_y;
+
+	// Sprawdź zderzenie z lewą i prawą krawędzią ekranu
+	if (nowe_polozenie_x - kulka->promien < 0 || nowe_polozenie_x + kulka->promien > BSP_LCD_GetXSize()) {
+		// Zderzenie z lewą lub prawą krawędzią, zmień kierunek prędkości poziomej
+		kulka->predkosc_x = -kulka->predkosc_x;
+		BSP_LCD_Clear(0xFF808080);
+	}
+
+	// Sprawdź zderzenie z górną i dolną krawędzią ekranu
+	if (nowe_polozenie_y - kulka->promien < 0 || nowe_polozenie_y + kulka->promien > BSP_LCD_GetYSize()) {
+		// Zderzenie z górną lub dolną krawędzią, zmień kierunek prędkości pionowej
+		kulka->predkosc_y = -kulka->predkosc_y;
+		BSP_LCD_Clear(0xFF808080);
+	}
+
+	// Aktualizuj położenie kulki na nowe pozycje
+	kulka->polozenie_x = nowe_polozenie_x;
+	kulka->polozenie_y = nowe_polozenie_y;
+
+	// Narysuj kulke na nowej pozycji
+	BSP_LCD_SetTextColor(kulka->kolor);
+	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
 }
+
 
 // Pobranie położenia X kulki
 int Kulka_getPolozenieX(const Kulka* kulka) {

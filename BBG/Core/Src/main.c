@@ -143,8 +143,8 @@ int main(void)
     BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
 
     // kulka
-    int kulka_pocz_x = 100;
-    int kulka_pocz_y = 250;
+    int kulka_pocz_x = 200;
+    int kulka_pocz_y = 300;
     int kulka_r = 8;
     int kulka_vx = 1;
     int kulka_vy = 1;
@@ -162,6 +162,8 @@ int main(void)
     int klocek_szerokosc = 30;
     int klocek_wysokosc = 10;
     int liczba_klockow = 10;
+
+    int odswiezanie = 16; // 1000ms / 16 = 60HZ
 
 	Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
 	Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
@@ -194,6 +196,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  BBG_ruchKulki(&bbg);
+	  BBG_obsluga_zbicia_klocka(&bbg);
+	  HAL_Delay(odswiezanie);
+
 // 		Get touch state
 //      TS_StateTypeDef  TS_State;
 //      BSP_TS_GetState(&TS_State);
@@ -211,7 +217,7 @@ int main(void)
 
 //      }
 //
-//      HAL_Delay(odswiezanie);
+//
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
