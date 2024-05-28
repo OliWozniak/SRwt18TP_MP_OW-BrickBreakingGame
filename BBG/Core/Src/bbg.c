@@ -27,6 +27,7 @@
 
 void BBG_init(BBG* bbg, Platforma *platforma, Klocek **klocki, Kulka *kulka, int lkl) {
     bbg->liczba_klockow = lkl;
+
     bbg->platforma = platforma;
     rysuj_platforme(bbg->platforma);
 
@@ -94,7 +95,6 @@ void BBG_ruchKulki(BBG* bbg) {
 
 // Ruch platformy (przykładowa implementacja)
 void BBG_ruchPlatformy(BBG* bbg, int x) {
-    // Przykładowy ruch platformy
-    //Platforma_ruch(&bbg->platforma, x);
+	rysuj_platforme(bbg->platforma);
 }
 

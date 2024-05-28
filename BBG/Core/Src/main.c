@@ -152,118 +152,20 @@ int main(void)
           int kulka_pocz_x = 20;
           int kulka_pocz_y = BSP_LCD_GetYSize() / 2;
           int kulka_r = 5;
-          int kulka_vx = 2;
-          int kulka_vy = 2;
+          int kulka_vx = 10;
+          int kulka_vy = 10;
           uint32_t kulka_kolor = LCD_COLOR_WHITE;
 
           Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
 
           BBG bbg;
           BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
-/*
-  BSP_LCD_Init();
-    BSP_LCD_LayerDefaultInit(1, LCD_FRAME_BUFFER_LAYER1);
-    BSP_LCD_SelectLayer(1);
-    BSP_LCD_Clear(LCD_COLOR_BLUE);
-    //HAL_Delay(1000);
-    BSP_LCD_SetColorKeying(1, LCD_COLOR_WHITE);
-    BSP_LCD_SetLayerVisible(1, DISABLE);
-
-    BSP_LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER_LAYER0);
-    BSP_LCD_SelectLayer(0);
-    BSP_LCD_DisplayOn();
-
-    BSP_LCD_Clear(LCD_COLOR_WHITE);
-
-    BSP_LCD_SetFont(&Font12);
-
-    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-    BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-
-//    Touchscreen_Calibration();
-    BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
-    BSP_LCD_Clear(LCD_COLOR_RED);
-    BSP_LCD_SetBackColor(LCD_COLOR_BLACK);
-    BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-
-    // kulka
-    int kulka_pocz_x = 155;
-    int kulka_pocz_y = 255;
-    int kulka_r = 8;
-    int kulka_vx = -5;
-    int kulka_vy = -5;
-    uint32_t kulka_kolor = LCD_COLOR_BLACK;
-
-    // platforma
-    int platforma_x = 120;
-    int platforma_y = 300;
-    int platforma_krok = 5;
-    int platforma_wysokosc = 10;
-    int platforma_szerokosc = 50;
-    uint32_t platforma_kolor = LCD_COLOR_YELLOW;
-
-    // klocek
-//    int klocek_szerokosc = 30;
-//    int klocek_wysokosc = 10;
-//    int liczba_klockow = 16;
-//    int liczba_wierszy = 4;
-
-    int odswiezanie = 16; // 1000ms / 16 = 60HZ
-
-    Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
-    Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
-
-    int liczba_klockow = 32; // Liczba klocków
-	int klocek_szerokosc = BSP_LCD_GetXSize() / 16; // Klocki są szersze niż wyższe
-	int klocek_wysokosc = BSP_LCD_GetYSize() / 8;   // Zakładamy 8 klocków w pionie
-
-    Klocek** klocki = (Klocek**)malloc(liczba_klockow * sizeof(Klocek*));
-    int licznik = 0;
-
-    for (int kk = 0; kk < liczba_klockow / 8; kk++) {
-        for (int k = 0; k < 8; k++, licznik++) {
-            klocki[licznik] = (Klocek*)malloc(sizeof(Klocek));
-            uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 1) || (k % 2 == 1 && kk % 2 == 0)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
-            Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
-        }
-    }
-
-    Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
-    Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
-
-    BBG bbg;
-    BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
-//	Platforma* platforma = (Platforma*)malloc(sizeof(Platforma));
-//	Kulka* kulka = (Kulka*)malloc(sizeof(Kulka));
-//    Klocek** klocki = (Klocek**)malloc(liczba_klockow * sizeof(Klocek*));
-////    for (int i = 0; i < liczba_klockow; i++) {
-////        klocki[i] = (Klocek*)malloc(sizeof(Klocek));
-////        //uint32_t kolor_klocka = i % 2 == 0 ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
-////       // Klocek_init(klocki[i], i * klocek_szerokosc, klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
-////    }
-//    int licznik = 0;
-//    for (int kk = 0 ; kk = liczba_klockow / 8; kk++){
-//    	for(int k = 0 ; k < 8 ; k++, licznik++){
-//    		klocki[licznik] = (Klocek*)malloc(sizeof(Klocek));
-//    		uint32_t kolor_klocka =  ((k % 2 == 0) && (kk % 2 ==1) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW);
-//    		Klocek_init(klocki[licznik], k * klocek_szerokosc, klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
-//    	}
-//    }
-//
-//    Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
-//    Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
-//
-//
-//	BBG bbg;
-//	BBG_init(&bbg, platforma, klocki, kulka, liczba_klockow);
-*/
 
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
-  //MX_FREERTOS_Init();
+
   /* Start scheduler */
-  //osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -272,6 +174,7 @@ int main(void)
   {
 	  BBG_ruchKulki(&bbg);
 	  BBG_obsluga_zbicia_klocka(&bbg);
+	  BBG_ruchPlatformy(&bbg, 50);
 	  HAL_Delay(odswiezanie);
 
 // 		Get touch state
