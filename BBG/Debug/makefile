@@ -91,8 +91,8 @@ BBG.bin \
 all: BBG.elf secondary-outputs
 
 # Tool invocations
-BBG.elf: $(OBJS) $(USER_OBJS) C:\Users\marpo\SR_gra\BBG\STM32F429ZITX_FLASH.ld
-	arm-none-eabi-g++ -o "BBG.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\marpo\SR_gra\BBG\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BBG.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+BBG.elf: $(OBJS) $(USER_OBJS) C:\Users\marpo\OneDrive\Pulpit\SR_BBG\BBG\STM32F429ZITX_FLASH.ld
+	arm-none-eabi-g++ -o "BBG.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\marpo\OneDrive\Pulpit\SR_BBG\BBG\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BBG.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
