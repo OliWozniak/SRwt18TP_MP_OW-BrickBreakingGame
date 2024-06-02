@@ -108,10 +108,18 @@ void BBG_obsluzDotykEkranu(BBG* bbg,  TS_StateTypeDef  TS_State) {
 }
 
 // Ruch kulki (przykładowa implementacja)
-void BBG_ruchKulki(BBG* bbg) {
-    // Przykładowy ruch kulki
-    Kulka_ruch(bbg->kulka);
-    rysuj_kulke(bbg->kulka);
+int BBG_ruchKulki(BBG* bbg) {
+    if(Kulka_ruch(bbg->kulka)==1){
+    	return 1;
+    }
+	//Obsługa odbicia od platformy
+	if(bbg->kulka->polozenie_y + bbg->kulka->promien >= bbg->platforma->polozenie_y &&
+			bbg->kulka->polozenie_x < bbg->platforma->polozenie_x + bbg->platforma->szerokosc &&
+			bbg->kulka->polozenie_x > bbg->platforma->polozenie_x ){
+		if(!(bbg->kulka->polozenie_y > bbg->platforma->polozenie_y))
+		bbg->kulka->predkosc_y *= -1;
+	}
+	return 0;
 }
 
 // Ruch platformy (przykładowa implementacja)

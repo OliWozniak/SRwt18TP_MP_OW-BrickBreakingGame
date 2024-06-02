@@ -65,7 +65,7 @@ uint8_t layer_flag;
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+void menu_bbg();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -133,6 +133,7 @@ int main(void)
           BSP_LCD_DisplayOn();
 
           Touchscreen_Calibration();
+          menu_bbg();
           BSP_LCD_Clear(LCD_COLOR_RED);
 
 
@@ -185,7 +186,13 @@ int main(void)
 	  else if(layer_flag==1){
 
 	  }
-	  BBG_ruchKulki(&bbg);
+	  if(BBG_ruchKulki(&bbg)==1){
+			BSP_LCD_SetFont(&Font20);
+			BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
+			BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+		  BSP_LCD_DisplayStringAt(0, 100, "Game Over", CENTER_MODE);
+		  //return;
+	  }
 	  BBG_obsluga_zbicia_klocka(&bbg);
 
 // 		Get touch state
@@ -263,6 +270,28 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void menu_bbg(){
+	BSP_LCD_Clear(LCD_COLOR_RED);
+	BSP_LCD_SetFont(&Font20);
+	BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
+	BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+	BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()/2, "BBG", CENTER_MODE);
+	BSP_LCD_SetFont(&Font12);
+	BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()/2 + 20, "Touch screen to begin", CENTER_MODE);
+
+	while(1){
+		TS_StateTypeDef  TS_State;
+		BSP_TS_GetState(&TS_State);
+		if(TS_State.TouchDetected){
+			BSP_LCD_SetFont(&Font20);
+
+		BSP_LCD_DisplayStringAt(0, 20, "TOUCHED!", CENTER_MODE);
+		HAL_Delay(500);
+		return;
+		}
+	}
+}
 
 /* USER CODE END 4 */
 

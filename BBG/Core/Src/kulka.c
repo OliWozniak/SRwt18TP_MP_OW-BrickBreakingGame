@@ -48,10 +48,7 @@ int Kulka_ruch(Kulka* kulka) {
 
 	}
 	if (nowe_polozenie_y + kulka->promien > BSP_LCD_GetYSize()){
-		kulka->predkosc_y = -kulka->predkosc_y;
-		nowe_polozenie_x = kulka->polozenie_x + kulka->predkosc_x;
-		nowe_polozenie_y = kulka->polozenie_y + kulka->predkosc_y;
-		//return 1;
+		return 1;
 	}
 
 	// Aktualizuj położenie kulki na nowe pozycje

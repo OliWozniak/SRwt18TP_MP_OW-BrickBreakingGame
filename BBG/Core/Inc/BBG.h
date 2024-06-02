@@ -19,7 +19,7 @@ typedef struct {
 // Deklaracje funkcji operujących na strukturze BBG
 void BBG_init(BBG* bbg , Platforma * platforma, Klocek ** klocki, Kulka * kulka, int lkl);
 void BBG_obsluzDotykEkranu(BBG* bbg, TS_StateTypeDef  TS_State);
-void BBG_ruchKulki(BBG* bbg);
+int BBG_ruchKulki(BBG* bbg);
 void BBG_ruchPlatformy(BBG* bbg, int x);
 void BBG_rysuj(const BBG* bbg);
 void BBG_obsluga_zbicia_klocka(BBG* bbg);
