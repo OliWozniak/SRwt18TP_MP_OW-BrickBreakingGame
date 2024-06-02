@@ -21,7 +21,7 @@ void rysuj_kulke(Kulka* kulka){
 	BSP_LCD_SetTextColor(kulka->kolor);
 	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
 }
-void Kulka_ruch(Kulka* kulka) {
+int Kulka_ruch(Kulka* kulka) {
 	// Zamaluj stary stan kulki
 	BSP_LCD_SetTextColor(0xFFFF0000); // Czerwony kolor
 	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
@@ -34,12 +34,24 @@ void Kulka_ruch(Kulka* kulka) {
 	if (nowe_polozenie_x - kulka->promien < 0 || nowe_polozenie_x + kulka->promien > BSP_LCD_GetXSize()) {
 		// Zderzenie z lewą lub prawą krawędzią, zmień kierunek prędkości poziomej
 		kulka->predkosc_x = -kulka->predkosc_x;
+		nowe_polozenie_x = kulka->polozenie_x + kulka->predkosc_x;
+		nowe_polozenie_y = kulka->polozenie_y + kulka->predkosc_y;
+
 	}
 
 	// Sprawdź zderzenie z górną i dolną krawędzią ekranu
-	if (nowe_polozenie_y - kulka->promien < 0 || nowe_polozenie_y + kulka->promien > BSP_LCD_GetYSize()) {
+	if (nowe_polozenie_y - kulka->promien < 0) {
 		// Zderzenie z górną lub dolną krawędzią, zmień kierunek prędkości pionowej
 		kulka->predkosc_y = -kulka->predkosc_y;
+		nowe_polozenie_x = kulka->polozenie_x + kulka->predkosc_x;
+		nowe_polozenie_y = kulka->polozenie_y + kulka->predkosc_y;
+
+	}
+	if (nowe_polozenie_y + kulka->promien > BSP_LCD_GetYSize()){
+		kulka->predkosc_y = -kulka->predkosc_y;
+		nowe_polozenie_x = kulka->polozenie_x + kulka->predkosc_x;
+		nowe_polozenie_y = kulka->polozenie_y + kulka->predkosc_y;
+		//return 1;
 	}
 
 	// Aktualizuj położenie kulki na nowe pozycje
@@ -49,6 +61,7 @@ void Kulka_ruch(Kulka* kulka) {
 	// Narysuj kulke na nowej pozycji
 	BSP_LCD_SetTextColor(kulka->kolor);
 	BSP_LCD_FillCircle(kulka->polozenie_x, kulka->polozenie_y, kulka->promien);
+	return 0;
 }
 
 

@@ -43,7 +43,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+uint8_t layer_flag;
 
 /* USER CODE END PTD */
 
@@ -53,9 +53,6 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define max(a, b) ((a) > (b) ? (a) : (b))
-#define min(a, b) ((a) < (b) ? (a) : (b))
-
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -117,11 +114,27 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+
+
   int odswiezanie = 16;
       BSP_LCD_Init();
-      BSP_LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER);
-          BSP_LCD_SelectLayer(0);
+
+          BSP_LCD_LayerDefaultInit(1, LCD_FRAME_BUFFER_LAYER1);
+          BSP_LCD_SelectLayer(1);
           BSP_LCD_Clear(LCD_COLOR_RED);
+          BSP_LCD_SetLayerVisible(1, DISABLE);
+
+          BSP_LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER_LAYER0);
+          BSP_LCD_SelectLayer(0);
+          layer_flag=0;
+          BSP_LCD_Clear(LCD_COLOR_RED);
+
+
+          BSP_LCD_DisplayOn();
+
+          Touchscreen_Calibration();
+          BSP_LCD_Clear(LCD_COLOR_RED);
+
 
           int liczba_klockow = 32; // Liczba klocków
           int klocek_szerokosc = BSP_LCD_GetXSize() / 8; // Klocki są szersze niż wyższe
@@ -152,8 +165,8 @@ int main(void)
           int kulka_pocz_x = 20;
           int kulka_pocz_y = BSP_LCD_GetYSize() / 2;
           int kulka_r = 5;
-          int kulka_vx = 10;
-          int kulka_vy = 10;
+          int kulka_vx = 2;
+          int kulka_vy = 2;
           uint32_t kulka_kolor = LCD_COLOR_WHITE;
 
           Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
@@ -163,37 +176,25 @@ int main(void)
 
   /* USER CODE END 2 */
 
-  /* Call init function for freertos objects (in freertos.c) */
-
-  /* Start scheduler */
-
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if(layer_flag==0){
+
+	  }
+	  else if(layer_flag==1){
+
+	  }
 	  BBG_ruchKulki(&bbg);
 	  BBG_obsluga_zbicia_klocka(&bbg);
-	  BBG_ruchPlatformy(&bbg, 50);
-	  HAL_Delay(odswiezanie);
 
 // 		Get touch state
-//      TS_StateTypeDef  TS_State;
-//      BSP_TS_GetState(&TS_State);
-//
-//      if (TS_State.TouchDetected) {
-//          uint32_t x = Calibration_GetX(TS_State.X);
-//          uint32_t y = Calibration_GetY(TS_State.Y);
-//
-//          // Update platform position based on touch input
-//          if ((x < BSP_LCD_GetXSize() / 2 ) &( x > 0)) {
-//              polozenie_x = max(0, polozenie_x - dlugosc_kroku);  // Move left
-//          } else if ((x > BSP_LCD_GetXSize() / 2) & (x <  BSP_LCD_GetXSize())) {
-//              polozenie_x = min(BSP_LCD_GetXSize() - szerekosc_platformy, polozenie_x + dlugosc_kroku);  // Move right
-//          }
+	  TS_StateTypeDef  TS_State;
+      BSP_TS_GetState(&TS_State);
+      BBG_obsluzDotykEkranu(&bbg, TS_State);
+	  HAL_Delay(odswiezanie);
 
-//      }
-//
+
 //
     /* USER CODE END WHILE */
 

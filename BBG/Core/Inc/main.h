@@ -49,6 +49,10 @@ extern "C" {
 #define LCD_FRAME_BUFFER_LAYER1                  LCD_FRAME_BUFFER
 #define CONVERTED_FRAME_BUFFER                   (LCD_FRAME_BUFFER+0x260000)
 
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

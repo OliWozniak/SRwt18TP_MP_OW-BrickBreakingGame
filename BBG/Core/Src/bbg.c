@@ -50,10 +50,19 @@ void BBG_obsluga_zbicia_klocka(BBG* bbg) {
             bbg->kulka->polozenie_y - bbg->kulka->promien <= bbg->klocki[i]->pozycja_y + bbg->klocki[i]->wysokosc &&
             bbg->kulka->polozenie_x + bbg->kulka->promien >= bbg->klocki[i]->pozycja_x &&
             bbg->kulka->polozenie_x - bbg->kulka->promien <= bbg->klocki[i]->pozycja_x + bbg->klocki[i]->szerokosc) {
-
-            // Odwróć kierunek prędkości kulki
             bbg->kulka->predkosc_x *= -1;
             bbg->kulka->predkosc_y *= -1;
+
+            // Odwróć kierunek prędkości kulki
+        	if(bbg->kulka->polozenie_x >= bbg->klocki[i]->pozycja_x &&
+               bbg->kulka->polozenie_x <= bbg->klocki[i]->pozycja_x + bbg->klocki[i]->szerokosc) {
+                bbg->kulka->predkosc_x *= -1;
+
+        	}
+        	if(bbg->kulka->polozenie_y >= bbg->klocki[i]->pozycja_y &&
+                    bbg->kulka->polozenie_y <= bbg->klocki[i]->pozycja_y + bbg->klocki[i]->wysokosc){
+                bbg->kulka->predkosc_y *= -1;
+        	}
 
             // zamaluj miejsce zbitego klocka
             BSP_LCD_SetBackColor(LCD_COLOR_RED);
@@ -81,9 +90,21 @@ void BBG_obsluga_zbicia_klocka(BBG* bbg) {
 
 
 // Obsługa dotyku ekranu (przykładowa implementacja)
-void BBG_obsluzDotykEkranu(BBG* bbg) {
-    // Przykładowa obsługa dotyku
-    printf("Obsługa dotyku ekranu\n");
+void BBG_obsluzDotykEkranu(BBG* bbg,  TS_StateTypeDef  TS_State) {
+	if (TS_State.TouchDetected) {
+		int platforma_x = Platforma_getPolozenieX(bbg->platforma);
+		int platforma_szerokosc = Platforma_getSzerokosc(bbg->platforma);
+		int platforma_krok = Platforma_getKrok(bbg->platforma);
+
+	          uint32_t x = Calibration_GetX(TS_State.X);
+	          uint32_t y = Calibration_GetY(TS_State.Y);
+	          if ((x < BSP_LCD_GetXSize() / 2 ) &( x > 0)) {
+	        	  platforma_x = max(0, platforma_x - platforma_krok);  // Move left
+	          } else if ((x > BSP_LCD_GetXSize() / 2) & (x <  BSP_LCD_GetXSize())) {
+	        	  platforma_x = min(BSP_LCD_GetXSize() - platforma_szerokosc, platforma_x + platforma_krok);  // Move right
+	          }
+	          BBG_ruchPlatformy(bbg, platforma_x);
+	      }
 }
 
 // Ruch kulki (przykładowa implementacja)
@@ -95,6 +116,8 @@ void BBG_ruchKulki(BBG* bbg) {
 
 // Ruch platformy (przykładowa implementacja)
 void BBG_ruchPlatformy(BBG* bbg, int x) {
+	zmaz_platforme(bbg->platforma);
+	Platforma_przesunDo(bbg->platforma,x);
 	rysuj_platforme(bbg->platforma);
 }
 

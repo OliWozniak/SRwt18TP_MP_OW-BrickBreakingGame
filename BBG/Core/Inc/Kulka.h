@@ -15,7 +15,7 @@ typedef struct {
 
 // Deklaracje funkcji operujących na strukturze Kulka
 void Kulka_init(Kulka* kulka, int x, int y, int r, int vx, int vy, uint32_t kol);
-void Kulka_ruch(Kulka* kulka);
+int Kulka_ruch(Kulka* kulka);
 void rysuj_kulke(Kulka* kulka);
 int Kulka_getPolozenieX(const Kulka* kulka);
 int Kulka_getPolozenieY(const Kulka* kulka);
