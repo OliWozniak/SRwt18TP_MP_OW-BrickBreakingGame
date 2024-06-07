@@ -6,6 +6,8 @@
 #include "Kulka.h"
 #include "main.h"
 #include <stdbool.h>
+#define ROWS_BBG 12
+#define COLLUMNS_BBG 15
 
 // Definicja struktury BBG
 typedef struct {

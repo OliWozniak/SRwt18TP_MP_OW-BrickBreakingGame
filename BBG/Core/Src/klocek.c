@@ -9,13 +9,15 @@
 #include "main.h"
 
 // Inicjalizacja struktury Klocek
-void Klocek_init(Klocek *k, int x, int y, int w, int h, uint32_t kol)
+void Klocek_init(Klocek *k, int x, int y, int w, int h, uint32_t kol, uint8_t brk, uint8_t thr)
 {
     k->pozycja_x = x;
     k->pozycja_y = y;
     k->szerokosc = w;
     k->wysokosc = h;
     k->kolor = kol;
+    k->is_breakable = brk; // Jak 1 to da się zepuć, jak 0 to nie
+    k->is_there = thr; // Jak jest 1 to jest obecny na planszy, jak 0 to nie istnieje
 }
 
 void rysuj_klocek(Klocek *k)

@@ -43,12 +43,17 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-uint8_t layer_flag;
+
 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define FLASH_USER_START_ADDR   ADDR_FLASH_SECTOR_2   /* Start @ of user Flash area */
+#define FLASH_USER_END_ADDR     ADDR_FLASH_SECTOR_23  +  GetSectorSize(ADDR_FLASH_SECTOR_23) -1 /* End @ of user Flash area : sector start address + sector size -1 */
+
+#define DATA_32                 ((uint32_t)0x12345678)
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,6 +64,10 @@ uint8_t layer_flag;
 
 /* USER CODE BEGIN PV */
 
+uint32_t Address;
+char data[4]={'a','b','c','d'};
+char read_data[4];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,6 +75,8 @@ void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 void menu_bbg();
+void ReadRecord(Klocek *klocek, uint32_t flash_address);
+int WriteRecord(Klocek *klocek, uint32_t address);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -78,9 +89,9 @@ int _write(int fd, char *ptr, int len)
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -115,6 +126,8 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+
+
   int odswiezanie = 16;
   BSP_LCD_Init();
 
@@ -125,34 +138,37 @@ int main(void)
 
   BSP_LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER_LAYER0);
   BSP_LCD_SelectLayer(0);
-  layer_flag = 0;
   BSP_LCD_Clear(LCD_COLOR_RED);
 
   BSP_LCD_DisplayOn();
 
   Touchscreen_Calibration();
+  BSP_LCD_Clear(LCD_COLOR_RED);
 
 
   menu_bbg();
+  Address=ADDR_FLASH_SECTOR_5;
   BSP_LCD_Clear(LCD_COLOR_RED);
 
                         // Liczba klocków
   int klocek_szerokosc = BSP_LCD_GetXSize() / 12; // Klocki są szersze niż wyższe
   int klocek_wysokosc = BSP_LCD_GetYSize() / 24; // Zakładamy 4 rzędy klocków
-  int liczba_klockow = 5*(BSP_LCD_GetXSize()/klocek_szerokosc); // Liczba klocków
+  int liczba_klockow = COLLUMNS_BBG*ROWS_BBG; // Liczba klocków
 
   Platforma *platforma = (Platforma *)malloc(sizeof(Platforma));
   Kulka *kulka = (Kulka *)malloc(sizeof(Kulka));
   Klocek **klocki = (Klocek **)malloc(liczba_klockow * sizeof(Klocek *));
   int licznik = 0;
 
-  for (int kk = 0; kk < 5; kk++)
+  for (int kk = 0; kk < COLLUMNS_BBG; kk++)
   { // Zakładając 4 rzędy klocków
-    for (int k = 0; k < liczba_klockow/5; k++, licznik++)
+    for (int k = 0; k < ROWS_BBG; k++, licznik++)
     { // 8 kolumn klocków
       klocki[licznik] = (Klocek *)malloc(sizeof(Klocek));
       uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 0) || (k % 2 == 1 && kk % 2 == 1)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
-      Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka);
+      Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+      //WriteRecord(klocki[licznik], Address + 12*licznik);
+      //ReadRecord(klocki[licznik], Address + 12*licznik);
     }
   }
 
@@ -164,10 +180,10 @@ int main(void)
   uint32_t platforma_kolor = LCD_COLOR_WHITE;
   Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
   int kulka_pocz_x = 10 + (rand() % (BSP_LCD_GetXSize() - 20));
-  int kulka_pocz_y = BSP_LCD_GetYSize() / 2;
+  int kulka_pocz_y = platforma_y-10;
   int kulka_r = 4;
   int kulka_vx = 2;
-  int kulka_vy = 2;
+  int kulka_vy = -2;
   uint32_t kulka_kolor = LCD_COLOR_WHITE;
 
   Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
@@ -177,6 +193,10 @@ int main(void)
 
   /* USER CODE END 2 */
 
+  /* Call init function for freertos objects (in freertos.c) */
+
+  /* We should never get here as control is now taken by the scheduler */
+  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
@@ -212,9 +232,9 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -222,12 +242,12 @@ void SystemClock_Config(void)
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-   */
+  */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
+  * in the RCC_OscInitTypeDef structure.
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -241,8 +261,9 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -289,23 +310,44 @@ void menu_bbg()
   }
 }
 
+
+void ReadRecord(Klocek *klocek, uint32_t flash_address)
+{
+    uint32_t *ptr = (uint32_t* )klocek;
+
+  for (int i = 0; i < sizeof(Klocek); i+=4, ptr++, flash_address+=4 )
+     *ptr = *(__IO uint32_t *)flash_address;
+}
+
+int WriteRecord(Klocek *klocek, uint32_t address)
+{
+    int i;
+    uint32_t *pRecord = (uint32_t* )klocek;
+    uint32_t flash_address = address;
+
+    HAL_FLASH_Unlock();
+    for(i=0; i<sizeof(Klocek); i+=4, pRecord++, flash_address+=4)
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, flash_address,*pRecord);
+    HAL_FLASH_Lock();
+    return i;
+}
+
 /* USER CODE END 4 */
 
 /**
- * @brief  Period elapsed callback in non blocking mode
- * @note   This function is called  when TIM6 interrupt took place, inside
- * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
- * a global variable "uwTick" used as application time base.
- * @param  htim : TIM handle
- * @retval None
- */
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM6 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM6)
-  {
+  if (htim->Instance == TIM6) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -314,24 +356,27 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 }
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-
+	  BSP_LED_On(LED4);
+	  while(1)
+	  {
+	  }
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
