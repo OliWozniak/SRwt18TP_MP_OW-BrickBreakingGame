@@ -147,7 +147,7 @@ int main(void)
 
 
   menu_bbg();
-  Address=ADDR_FLASH_SECTOR_5;
+  Address=ADDR_FLASH_SECTOR_5; // Tutaj zmieniamy wczytywany/zapisywany poziom
   BSP_LCD_Clear(LCD_COLOR_RED);
 
                         // Liczba klocków
@@ -167,8 +167,12 @@ int main(void)
       klocki[licznik] = (Klocek *)malloc(sizeof(Klocek));
       uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 0) || (k % 2 == 1 && kk % 2 == 1)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
       Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
-      //WriteRecord(klocki[licznik], Address + 12*licznik);
-      //ReadRecord(klocki[licznik], Address + 12*licznik);
+      /*HAL_FLASH_Unlock();
+      FLASH_Erase_Sector(5, FLASH_VOLTAGE_RANGE_3);
+      HAL_FLASH_Lock();*/
+      //WriteRecord(klocki[licznik], Address + 16*licznik);
+
+      //ReadRecord(klocki[licznik], Address + 16*licznik);
     }
   }
 
@@ -324,6 +328,7 @@ int WriteRecord(Klocek *klocek, uint32_t address)
     int i;
     uint32_t *pRecord = (uint32_t* )klocek;
     uint32_t flash_address = address;
+
 
     HAL_FLASH_Unlock();
     for(i=0; i<sizeof(Klocek); i+=4, pRecord++, flash_address+=4)

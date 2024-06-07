@@ -14,8 +14,8 @@
 // Definicja struktury Klocek
 //sizeof(Klocek) = 24 -> 12 Bajtów
 typedef struct {
-	uint8_t pozycja_x;
-    uint8_t pozycja_y;
+	uint16_t pozycja_x;
+    uint16_t pozycja_y;
     uint8_t szerokosc;
     uint8_t wysokosc;
     uint32_t kolor;
@@ -24,7 +24,7 @@ typedef struct {
 } Klocek;
 
 // Deklaracje funkcji operujących na strukturze Klocek
-void Klocek_init(Klocek* k, int x, int y, int w, int h, uint32_t kol, uint8_t brk, uint8_t thr);
+void Klocek_init(Klocek *k, int x, int y, int w, int h, uint32_t kol, uint8_t brk, uint8_t thr);
 void rysuj_klocek(Klocek* k);
 void Klocek_ustawPozycje(Klocek* k, int x, int y);
 bool Klocek_czyKolizja(const Klocek* k, int x, int y, int promien);

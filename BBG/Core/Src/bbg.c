@@ -35,7 +35,9 @@ void BBG_init(BBG *bbg, Platforma *platforma, Klocek **klocki, Kulka *kulka, int
     bbg->klocki = klocki;
     for (int i = 0; i < bbg->liczba_klockow; i++)
     {
+    	if(bbg->klocki[i]->is_there==1){
         rysuj_klocek(bbg->klocki[i]);
+    	}
     }
 
     bbg->kulka = kulka;
@@ -48,11 +50,13 @@ void BBG_obsluga_zbicia_klocka(BBG *bbg)
     for (int i = 0; i < bbg->liczba_klockow; i++)
     {
         // Sprawdź, czy kulka zderzyła się z klockiem
-        if (bbg->kulka->polozenie_y + bbg->kulka->promien >= bbg->klocki[i]->pozycja_y &&
-            bbg->kulka->polozenie_y - bbg->kulka->promien <= bbg->klocki[i]->pozycja_y + bbg->klocki[i]->wysokosc &&
-            bbg->kulka->polozenie_x + bbg->kulka->promien >= bbg->klocki[i]->pozycja_x &&
-            bbg->kulka->polozenie_x - bbg->kulka->promien <= bbg->klocki[i]->pozycja_x + bbg->klocki[i]->szerokosc)
+        if (bbg->kulka->polozenie_y + (bbg->kulka->promien-2) >= bbg->klocki[i]->pozycja_y &&
+            bbg->kulka->polozenie_y - (bbg->kulka->promien-2) <= bbg->klocki[i]->pozycja_y + bbg->klocki[i]->wysokosc &&
+            bbg->kulka->polozenie_x + (bbg->kulka->promien-2) >= bbg->klocki[i]->pozycja_x &&
+            bbg->kulka->polozenie_x - (bbg->kulka->promien-2) <= bbg->klocki[i]->pozycja_x + bbg->klocki[i]->szerokosc &&
+			bbg->klocki[i]->is_there==1)
         {
+
             bbg->kulka->predkosc_x *= -1;
             bbg->kulka->predkosc_y *= -1;
 
@@ -68,6 +72,7 @@ void BBG_obsluga_zbicia_klocka(BBG *bbg)
                 bbg->kulka->predkosc_y *= -1;
             }
 
+            if(bbg->klocki[i]->is_breakable==1){
             // zamaluj miejsce zbitego klocka
             BSP_LCD_SetBackColor(LCD_COLOR_RED);
             BSP_LCD_SetTextColor(LCD_COLOR_RED);
@@ -82,9 +87,10 @@ void BBG_obsluga_zbicia_klocka(BBG *bbg)
                 bbg->klocki[j] = bbg->klocki[j + 1];
             }
 
+
             // Zmniejsz liczbę klocków o 1
             bbg->liczba_klockow--;
-
+            }
             // Przerwij pętlę, gdy trafiony zostanie tylko jeden klocek
             if (bbg->liczba_klockow == 0)
             {
