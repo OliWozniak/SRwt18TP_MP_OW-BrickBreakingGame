@@ -78,3 +78,8 @@ int Platforma_getKrok(const Platforma *platforma)
 {
     return platforma->krok;
 }
+
+uint32_t Platforma_getKolor(const Platforma *platforma)
+{
+    return platforma->kolor;
+}

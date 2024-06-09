@@ -80,6 +80,8 @@ extern "C" {
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
+#define MAX_LEVEL_BBG 6
+
 
 /* USER CODE END ET */
 

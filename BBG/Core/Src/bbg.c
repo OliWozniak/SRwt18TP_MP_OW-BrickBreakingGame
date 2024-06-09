@@ -45,7 +45,7 @@ void BBG_init(BBG *bbg, Platforma *platforma, Klocek **klocki, Kulka *kulka, int
     rysuj_platforme(bbg->platforma);
 }
 
-void BBG_obsluga_zbicia_klocka(BBG *bbg)
+int BBG_obsluga_zbicia_klocka(BBG *bbg)
 {
     for (int i = 0; i < bbg->liczba_klockow; i++)
     {
@@ -94,10 +94,11 @@ void BBG_obsluga_zbicia_klocka(BBG *bbg)
             // Przerwij pętlę, gdy trafiony zostanie tylko jeden klocek
             if (bbg->liczba_klockow == 0)
             {
-                break;
+            	return 1;
             }
         }
     }
+    return 0;
 }
 
 // Obsługa dotyku ekranu (przykładowa implementacja)
@@ -111,14 +112,25 @@ void BBG_obsluzDotykEkranu(BBG *bbg, TS_StateTypeDef TS_State)
 
         uint32_t x = Calibration_GetX(TS_State.X);
         uint32_t y = Calibration_GetY(TS_State.Y);
-        if ((x < BSP_LCD_GetXSize() / 2) & (x > 0))
+        if ((x < BSP_LCD_GetXSize() / 2) && (x > 0))
         {
             platforma_x = max(0, platforma_x - platforma_krok); // Move left
+            BSP_LCD_SetTextColor(0xFFFF0000);
+            BSP_LCD_FillRect(platforma_x+Platforma_getSzerokosc(bbg->platforma),Platforma_getPolozenieY(bbg->platforma), Platforma_getKrok(bbg->platforma), Platforma_getWysokosc(bbg->platforma));
+            BSP_LCD_SetTextColor(Platforma_getKolor(bbg->platforma));
+            BSP_LCD_FillRect(platforma_x,Platforma_getPolozenieY(bbg->platforma), Platforma_getKrok(bbg->platforma), Platforma_getWysokosc(bbg->platforma));
         }
-        else if ((x > BSP_LCD_GetXSize() / 2) & (x < BSP_LCD_GetXSize()))
+        else if ((x > BSP_LCD_GetXSize() / 2) && (x < BSP_LCD_GetXSize()))
         {
             platforma_x = min(BSP_LCD_GetXSize() - platforma_szerokosc, platforma_x + platforma_krok); // Move right
+            if(Platforma_getPolozenieX(bbg->platforma)+Platforma_getSzerokosc(bbg->platforma)<BSP_LCD_GetXSize()){
+            BSP_LCD_SetTextColor(0xFFFF0000);
+            BSP_LCD_FillRect(Platforma_getPolozenieX(bbg->platforma),Platforma_getPolozenieY(bbg->platforma), Platforma_getKrok(bbg->platforma), Platforma_getWysokosc(bbg->platforma));
+            BSP_LCD_SetTextColor(Platforma_getKolor(bbg->platforma));
+            BSP_LCD_FillRect(Platforma_getPolozenieX(bbg->platforma)+Platforma_getSzerokosc(bbg->platforma), Platforma_getPolozenieY(bbg->platforma), Platforma_getKrok(bbg->platforma), Platforma_getWysokosc(bbg->platforma));
+            }
         }
+
         BBG_ruchPlatformy(bbg, platforma_x);
     }
 }
@@ -150,7 +162,6 @@ int BBG_ruchKulki(BBG *bbg)
 // Ruch platformy (przykładowa implementacja)
 void BBG_ruchPlatformy(BBG *bbg, int x)
 {
-    zmaz_platforme(bbg->platforma);
     Platforma_przesunDo(bbg->platforma, x);
-    rysuj_platforme(bbg->platforma);
+
 }

@@ -67,6 +67,7 @@
 uint32_t Address;
 char data[4]={'a','b','c','d'};
 char read_data[4];
+uint8_t level;
 
 /* USER CODE END PV */
 
@@ -147,7 +148,28 @@ int main(void)
 
 
   menu_bbg();
-  Address=ADDR_FLASH_SECTOR_5; // Tutaj zmieniamy wczytywany/zapisywany poziom
+
+
+  // Tutaj zmieniamy wczytywany/zapisywany poziom
+
+  switch (level) {
+	case 0:  Address=ADDR_FLASH_SECTOR_5;
+		break;
+	case 1:  Address=ADDR_FLASH_SECTOR_6;
+		break;
+	case 2:  Address=ADDR_FLASH_SECTOR_7;
+		break;
+	case 3:  Address=ADDR_FLASH_SECTOR_8;
+		break;
+	case 4:  Address=ADDR_FLASH_SECTOR_9;
+		break;
+	case 5:  Address=ADDR_FLASH_SECTOR_10;
+		break;
+	case 6:  Address=ADDR_FLASH_SECTOR_11;
+		break;
+	default: // Nie powinno cię tu być
+		break;
+}
   BSP_LCD_Clear(LCD_COLOR_RED);
 
                         // Liczba klocków
@@ -189,6 +211,7 @@ int main(void)
   int kulka_vx = 2;
   int kulka_vy = -2;
   uint32_t kulka_kolor = LCD_COLOR_WHITE;
+  uint32_t prev_tick=0;
 
   Kulka_init(kulka, kulka_pocz_x, kulka_pocz_y, kulka_r, kulka_vx, kulka_vy, kulka_kolor);
 
@@ -204,21 +227,31 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if(HAL_GetTick()-prev_tick>=odswiezanie){
+		  prev_tick=HAL_GetTick();
     if (BBG_ruchKulki(&bbg) == 1)
     {
-      BSP_LCD_SetFont(&Font20);
+      BSP_LCD_SetFont(&Font24);
       BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
       BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
       BSP_LCD_DisplayStringAt(0, 100, "Game Over", CENTER_MODE);
-      // return;
+      HAL_Delay(2000);
+      return;
     }
-    BBG_obsluga_zbicia_klocka(&bbg);
 
+    if(BBG_obsluga_zbicia_klocka(&bbg)==1){
+        BSP_LCD_SetFont(&Font24);
+        BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
+        BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+        BSP_LCD_DisplayStringAt(0, 100, "!!! VICTORY !!!", CENTER_MODE);
+        HAL_Delay(2000);
+        return;
+    }
     // 		Get touch state
     TS_StateTypeDef TS_State;
     BSP_TS_GetState(&TS_State);
     BBG_obsluzDotykEkranu(&bbg, TS_State);
-    HAL_Delay(odswiezanie);
+	  }
 
     //
     /* USER CODE END WHILE */
@@ -292,12 +325,29 @@ void SystemClock_Config(void)
 void menu_bbg()
 {
   BSP_LCD_Clear(LCD_COLOR_RED);
-  BSP_LCD_SetFont(&Font20);
-  BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
+
+  BSP_LCD_SetTextColor(LCD_COLOR_GRAY);
+
+  BSP_LCD_FillRect(0, (BSP_LCD_GetYSize() / 4)-25, 50, 50);
+  BSP_LCD_FillRect(BSP_LCD_GetXSize() -50, (BSP_LCD_GetYSize() / 4)-25, 50, 50);
   BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() / 2, "BBG", CENTER_MODE);
+
+  BSP_LCD_FillTriangle(15, 25, 25, BSP_LCD_GetYSize() / 4, (BSP_LCD_GetYSize() / 4)+10, (BSP_LCD_GetYSize() / 4)-10);
+  BSP_LCD_FillTriangle(BSP_LCD_GetXSize() -15, BSP_LCD_GetXSize() -25, BSP_LCD_GetXSize() -25, BSP_LCD_GetYSize() / 4, (BSP_LCD_GetYSize() / 4)+10, (BSP_LCD_GetYSize() / 4)-10);
+
+  BSP_LCD_SetFont(&Font20);
+  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+  BSP_LCD_DisplayStringAt(0, (BSP_LCD_GetYSize() / 4)-30, "BBG", CENTER_MODE);
   BSP_LCD_SetFont(&Font16);
-  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize() / 2 + 20, "Touch screen to begin", CENTER_MODE);
+  BSP_LCD_DisplayStringAt(0, (BSP_LCD_GetYSize() / 4)-10, "Select level", CENTER_MODE);
+  level=0;
+  char level_txt[5];
+
+  BSP_LCD_SetFont(&Font24);
+BSP_LCD_DisplayStringAt(0, (BSP_LCD_GetYSize() / 4)+10, itoa(level+1,level_txt, 10), CENTER_MODE);
+BSP_LCD_DisplayStringAt(0, (BSP_LCD_GetYSize() / 4)*3, "START", CENTER_MODE);
+
 
   while (1)
   {
@@ -305,11 +355,27 @@ void menu_bbg()
     BSP_TS_GetState(&TS_State);
     if (TS_State.TouchDetected)
     {
-      BSP_LCD_SetFont(&Font20);
+    	uint16_t x = Calibration_GetX(TS_State.X);
+    	uint16_t y = Calibration_GetY(TS_State.Y);
 
-      BSP_LCD_DisplayStringAt(0, 20, "TOUCHED!", CENTER_MODE);
-      HAL_Delay(500);
-      return;
+    	if(y<BSP_LCD_GetYSize() / 2 && x>BSP_LCD_GetXSize() / 2){
+    		if(level<MAX_LEVEL_BBG) level++;
+    		HAL_Delay(200);
+    	}
+
+    	if(y<BSP_LCD_GetYSize() / 2 && x < BSP_LCD_GetXSize() / 2){
+    		if(level>0) level--;
+    		HAL_Delay(200);
+    	}
+
+    	if(y>BSP_LCD_GetYSize() / 2){
+    	      HAL_Delay(500);
+    	      return;
+    	}
+
+
+    	BSP_LCD_DisplayStringAt(0, (BSP_LCD_GetYSize() / 4)+10, itoa(level+1,level_txt, 10), CENTER_MODE);
+
     }
   }
 }

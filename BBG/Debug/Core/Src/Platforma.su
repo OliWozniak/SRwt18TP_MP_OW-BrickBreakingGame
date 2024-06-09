@@ -9,3 +9,4 @@ platforma.c:60:5:Platforma_getPolozenieY	16	static
 platforma.c:66:5:Platforma_getSzerokosc	16	static
 platforma.c:72:5:Platforma_getWysokosc	16	static
 platforma.c:77:5:Platforma_getKrok	16	static
+platforma.c:82:10:Platforma_getKolor	16	static

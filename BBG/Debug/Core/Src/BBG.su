@@ -1,5 +1,5 @@
 bbg.c:28:6:BBG_init	32	static
-bbg.c:48:6:BBG_obsluga_zbicia_klocka	32	static
-bbg.c:104:6:BBG_obsluzDotykEkranu	56	static
-bbg.c:127:5:BBG_ruchKulki	16	static
-bbg.c:151:6:BBG_ruchPlatformy	16	static
+bbg.c:48:5:BBG_obsluga_zbicia_klocka	32	static
+bbg.c:105:6:BBG_obsluzDotykEkranu	64	static
+bbg.c:139:5:BBG_ruchKulki	16	static
+bbg.c:163:6:BBG_ruchPlatformy	16	static

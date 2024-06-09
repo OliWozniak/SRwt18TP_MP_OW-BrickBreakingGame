@@ -24,6 +24,6 @@ int Platforma_getPolozenieY(const Platforma* platforma);
 int Platforma_getSzerokosc(const Platforma* platforma);
 int Platforma_getWysokosc(const Platforma* platforma);
 int Platforma_getKrok(const Platforma* platforma);
-
+uint32_t Platforma_getKolor(const Platforma *platforma);
 #endif // PLATFORMA_H
 
