@@ -205,7 +205,7 @@ int main(void)
       }
       */
 
-    ////////////////////////////////////////////LEVEL3
+    /////////LEVEL3
 	/*if(( k == 3  || k == 7) && (kk >=2 && kk <= 10)){
 	  kolor_klocka = LCD_COLOR_GRAY;
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
@@ -225,14 +225,40 @@ int main(void)
       	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
       	}*/
      //LEVEL5
-      if(kk == 7  && (k >2 && k < 7) || (k > 2 && k <10 ) ){
+     /* if(kk == 7  && ( (k >1 && k < 5) || (k > 6 && k <10 ) ) ){
 		  kolor_klocka = LCD_COLOR_GRAY;
 		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
 		  continue;
       }
-	else{
+      else{
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
-	}
+      }
+      */
+
+      //LEVEL 6
+
+       if( (kk == 2 || kk == 6 || kk == 10)  && ( (k >1 && k < 5) || (k > 6 && k <10 ) ) ){
+      		  kolor_klocka = LCD_COLOR_GRAY;
+      		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+      		  continue;
+		}
+		else{
+			Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+		}
+
+
+
+      //LEVEL 7
+      /*
+      if(k * kk % 4 == 2){
+			  kolor_klocka = LCD_COLOR_GRAY;
+			  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+			  continue;
+		}
+		else{
+			Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+		}
+		*/
 
 
 
