@@ -177,9 +177,12 @@ int main(void)
   int klocek_wysokosc = BSP_LCD_GetYSize() / 24; // Zakładamy 4 rzędy klocków
   int liczba_klockow = COLLUMNS_BBG*ROWS_BBG; // Liczba klocków
 
+
+
   Platforma *platforma = (Platforma *)malloc(sizeof(Platforma));
   Kulka *kulka = (Kulka *)malloc(sizeof(Kulka));
-  Klocek **klocki = (Klocek **)malloc(liczba_klockow * sizeof(Klocek *));
+
+  Klocek **klocki = (Klocek **)malloc((liczba_klockow) * sizeof(Klocek *));
   int licznik = 0;
 
   for (int kk = 0; kk < COLLUMNS_BBG; kk++)
@@ -188,15 +191,64 @@ int main(void)
     { // 8 kolumn klocków
       klocki[licznik] = (Klocek *)malloc(sizeof(Klocek));
       uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 0) || (k % 2 == 1 && kk % 2 == 1)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
-      Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
-      /*HAL_FLASH_Unlock();
-      FLASH_Erase_Sector(5, FLASH_VOLTAGE_RANGE_3);
-      HAL_FLASH_Lock();*/
-      //WriteRecord(klocki[licznik], Address + 16*licznik);
+      /////LEVEL1
+      //Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 
-      //ReadRecord(klocki[licznik], Address + 16*licznik);
+      /////////////LEVEL2
+      /*if(kk == 7  && (k >3 && k < 9)){
+    	  kolor_klocka = LCD_COLOR_GRAY;
+    	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+    	  continue;
+      }
+      else{
+    	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+      }
+      */
+
+    ////////////////////////////////////////////LEVEL3
+	/*if(( k == 3  || k == 7) && (kk >=2 && kk <= 10)){
+	  kolor_klocka = LCD_COLOR_GRAY;
+	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+	  continue;
+	}
+	else{
+	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+	}*/
+
+    //////LEVEL4
+      /*if(( k == 3  || k == 7) && (kk >=2 && kk <= 10)){
+      	  kolor_klocka = LCD_COLOR_GRAY;
+      	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+      	  continue;
+      	}
+      	else{
+      	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+      	}*/
+     //LEVEL5
+      if(kk == 7  && (k >2 && k < 7) || (k > 2 && k <10 ) ){
+		  kolor_klocka = LCD_COLOR_GRAY;
+		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+		  continue;
+      }
+	else{
+	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+	}
+
+
+
+
+
+//      HAL_FLASH_Unlock();
+//      FLASH_Erase_Sector(5, FLASH_VOLTAGE_RANGE_3);
+//      WriteRecord(klocki[licznik], Address + 16*licznik);
+//      HAL_FLASH_Lock();
+//
+//      ReadRecord(klocki[licznik], Address + 16*licznik);
     }
   }
+
+
+
 
   int platforma_x = 50;
   int platforma_y = BSP_LCD_GetYSize() - 20;
@@ -226,7 +278,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
+   {
 	  if(HAL_GetTick()-prev_tick>=odswiezanie){
 		  prev_tick=HAL_GetTick();
     if (BBG_ruchKulki(&bbg) == 1)
@@ -397,10 +449,42 @@ int WriteRecord(Klocek *klocek, uint32_t address)
 
 
     HAL_FLASH_Unlock();
-    for(i=0; i<sizeof(Klocek); i+=4, pRecord++, flash_address+=4)
+    for(i=0; i<sizeof(Klocek); i+=4, pRecord++, flash_address+=4){
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, flash_address,*pRecord);
+    }
     HAL_FLASH_Lock();
     return i;
+}
+
+void WriteKlockiToFlash(Klocek **klocki, int liczba_klockow) {
+    HAL_StatusTypeDef status;
+
+    // Odblokowanie pamięci flash
+    HAL_FLASH_Unlock();
+
+    // Konfiguracja struktury do kasowania sektora
+    FLASH_EraseInitTypeDef EraseInitStruct;
+    uint32_t SectorError = 0;
+
+    EraseInitStruct.TypeErase = FLASH_TYPEERASE_SECTORS;
+    EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+    EraseInitStruct.Sector = FLASH_SECTOR_6; // Numer sektora do skasowania
+    EraseInitStruct.NbSectors = 1;
+
+    // Kasowanie sektora
+    status = HAL_FLASHEx_Erase(&EraseInitStruct, &SectorError);
+    if (status != HAL_OK) {
+        // Obsługa błędów kasowania
+        while (1) {}
+    }
+
+    // Programowanie pamięci flash
+    for (int i = 0; i < liczba_klockow; i++) {
+        WriteRecord(klocki[i], FLASH_SECTOR_6 + i * sizeof(Klocek));
+    }
+
+    // Zablokowanie pamięci flash
+    HAL_FLASH_Lock();
 }
 
 /* USER CODE END 4 */

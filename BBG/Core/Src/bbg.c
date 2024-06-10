@@ -77,7 +77,7 @@ int BBG_obsluga_zbicia_klocka(BBG *bbg)
             BSP_LCD_SetBackColor(LCD_COLOR_RED);
             BSP_LCD_SetTextColor(LCD_COLOR_RED);
             BSP_LCD_FillRect(bbg->klocki[i]->pozycja_x, bbg->klocki[i]->pozycja_y, bbg->klocki[i]->szerokosc, bbg->klocki[i]->wysokosc);
-
+            }
             // Usuń trafiony klocek z tablicy klocków
             // free(bbg->klocki[i]);
 
@@ -90,14 +90,13 @@ int BBG_obsluga_zbicia_klocka(BBG *bbg)
 
             // Zmniejsz liczbę klocków o 1
             bbg->liczba_klockow--;
-            }
-            // Przerwij pętlę, gdy trafiony zostanie tylko jeden klocek
-            if (bbg->liczba_klockow == 0)
-            {
-            	return 1;
-            }
-        }
-    }
+		}
+
+		if (bbg->liczba_klockow == 0)
+		{
+			return 1;
+		}
+	}
     return 0;
 }
 

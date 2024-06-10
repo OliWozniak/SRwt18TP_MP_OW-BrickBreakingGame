@@ -7,7 +7,7 @@
 #include "main.h"
 #include <stdbool.h>
 #define ROWS_BBG 12
-#define COLLUMNS_BBG 15
+#define COLLUMNS_BBG 12
 
 // Definicja struktury BBG
 typedef struct {
