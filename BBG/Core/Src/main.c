@@ -192,10 +192,12 @@ int main(void)
       klocki[licznik] = (Klocek *)malloc(sizeof(Klocek));
       uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 0) || (k % 2 == 1 && kk % 2 == 1)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
       /////LEVEL1
+
       //Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 
       /////////////LEVEL2
-      /*if(kk == 7  && (k >3 && k < 9)){
+      /*
+      if(kk == 7  && (k >=3 && k < 9)){
     	  kolor_klocka = LCD_COLOR_GRAY;
     	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
     	  continue;
@@ -205,27 +207,22 @@ int main(void)
       }
       */
 
+
     /////////LEVEL3
-	/*if(( k == 3  || k == 7) && (kk >=2 && kk <= 10)){
+      /*
+	if(( k == 3  || k == 8) && (kk >=1 && kk <= 10)){
 	  kolor_klocka = LCD_COLOR_GRAY;
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
 	  continue;
 	}
 	else{
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
-	}*/
+	}
+	*/
 
-    //////LEVEL4
-      /*if(( k == 3  || k == 7) && (kk >=2 && kk <= 10)){
-      	  kolor_klocka = LCD_COLOR_GRAY;
-      	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
-      	  continue;
-      	}
-      	else{
-      	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
-      	}*/
-     //LEVEL5
-     /* if(kk == 7  && ( (k >1 && k < 5) || (k > 6 && k <10 ) ) ){
+     //LEVEL4
+      /*
+      if(kk == 7  && ( (k >=1 && k < 5) || (k > 6 && k <= 10 ) ) ){
 		  kolor_klocka = LCD_COLOR_GRAY;
 		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
 		  continue;
@@ -235,9 +232,10 @@ int main(void)
       }
       */
 
-      //LEVEL 6
 
-       if( (kk == 2 || kk == 6 || kk == 10)  && ( (k >1 && k < 5) || (k > 6 && k <10 ) ) ){
+      //LEVEL 5
+      /*
+       if( (kk == 2 || kk == 6 || kk == 10)  && ( (k >= 1 && k < 5) || (k > 6 && k <= 10 ) ) ){
       		  kolor_klocka = LCD_COLOR_GRAY;
       		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
       		  continue;
@@ -245,12 +243,12 @@ int main(void)
 		else{
 			Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 		}
+		*/
 
 
-
-      //LEVEL 7
+      //LEVEL 6
       /*
-      if(k * kk % 4 == 2){
+      if( (k == kk || COLLUMNS_BBG -k == kk ) && k != 0 && k!= ROWS_BBG-1){
 			  kolor_klocka = LCD_COLOR_GRAY;
 			  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
 			  continue;
@@ -258,7 +256,18 @@ int main(void)
 		else{
 			Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 		}
-		*/
+      */
+      // level 7
+
+              if (k > 0 && kk > 0 && (k + kk) % 3 == 1) {
+                  kolor_klocka = LCD_COLOR_GRAY;
+                  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
+              }
+              else {
+                  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
+              }
+
+
 
 
 
@@ -284,10 +293,10 @@ int main(void)
   uint32_t platforma_kolor = LCD_COLOR_WHITE;
   Platforma_init(platforma, platforma_x, platforma_y, platforma_szerokosc, platforma_wysokosc, platforma_krok, platforma_kolor);
   int kulka_pocz_x = 10 + (rand() % (BSP_LCD_GetXSize() - 20));
-  int kulka_pocz_y = platforma_y-10;
+  int kulka_pocz_y = platforma_y-30;
   int kulka_r = 4;
-  int kulka_vx = 2;
-  int kulka_vy = -2;
+  int kulka_vx = 0; // 2
+  int kulka_vy = 0; // -2
   uint32_t kulka_kolor = LCD_COLOR_WHITE;
   uint32_t prev_tick=0;
 
