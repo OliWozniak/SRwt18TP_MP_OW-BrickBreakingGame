@@ -184,88 +184,89 @@ int main(void)
 
   Klocek **klocki = (Klocek **)malloc((liczba_klockow) * sizeof(Klocek *));
   int licznik = 0;
+/*
+  Address=ADDR_FLASH_SECTOR_10;
+  HAL_FLASH_Unlock();
+  FLASH_Erase_Sector(10, FLASH_VOLTAGE_RANGE_3);
+  HAL_FLASH_Lock();
+*/
 
   for (int kk = 0; kk < COLLUMNS_BBG; kk++)
   { // Zakładając 4 rzędy klocków
     for (int k = 0; k < ROWS_BBG; k++, licznik++)
     { // 8 kolumn klocków
       klocki[licznik] = (Klocek *)malloc(sizeof(Klocek));
-      uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 0) || (k % 2 == 1 && kk % 2 == 1)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
+      //uint32_t kolor_klocka = ((k % 2 == 0 && kk % 2 == 0) || (k % 2 == 1 && kk % 2 == 1)) ? LCD_COLOR_BLUE : LCD_COLOR_YELLOW;
       /////LEVEL1
 
       //Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 
       /////////////LEVEL2
-      /*
+/*
       if(kk == 7  && (k >=3 && k < 9)){
     	  kolor_klocka = LCD_COLOR_GRAY;
     	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
-    	  continue;
       }
       else{
     	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
       }
-      */
+*/
 
 
     /////////LEVEL3
-      /*
+/*
 	if(( k == 3  || k == 8) && (kk >=1 && kk <= 10)){
 	  kolor_klocka = LCD_COLOR_GRAY;
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
-	  continue;
 	}
 	else{
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 	}
-	*/
+*/
 
      //LEVEL4
-      /*
+/*
       if(kk == 7  && ( (k >=1 && k < 5) || (k > 6 && k <= 10 ) ) ){
 		  kolor_klocka = LCD_COLOR_GRAY;
 		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
-		  continue;
       }
       else{
 	  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
       }
-      */
+*/
 
 
       //LEVEL 5
-      /*
+/*
        if( (kk == 2 || kk == 6 || kk == 10)  && ( (k >= 1 && k < 5) || (k > 6 && k <= 10 ) ) ){
       		  kolor_klocka = LCD_COLOR_GRAY;
       		  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
-      		  continue;
 		}
 		else{
 			Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 		}
-		*/
+*/
 
 
       //LEVEL 6
-      /*
+/*
       if( (k == kk || COLLUMNS_BBG -k == kk ) && k != 0 && k!= ROWS_BBG-1){
 			  kolor_klocka = LCD_COLOR_GRAY;
 			  Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
-			  continue;
 		}
 		else{
 			Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
 		}
-      */
+*/
       // level 7
 
-              if (k > 0 && kk > 0 && (k + kk) % 3 == 1) {
+              /*if (k > 0 && kk > 0 && (k + kk) % 3 == 1) {
                   kolor_klocka = LCD_COLOR_GRAY;
                   Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 0, 1);
               }
               else {
                   Klocek_init(klocki[licznik], k * klocek_szerokosc, kk * klocek_wysokosc, klocek_szerokosc, klocek_wysokosc, kolor_klocka, 1, 1);
-              }
+              }*/
 
 
 
@@ -273,16 +274,20 @@ int main(void)
 
 
 
-//      HAL_FLASH_Unlock();
-//      FLASH_Erase_Sector(5, FLASH_VOLTAGE_RANGE_3);
-//      WriteRecord(klocki[licznik], Address + 16*licznik);
-//      HAL_FLASH_Lock();
+      //WriteRecord(klocki[licznik], Address + 16*licznik);
+
 //
-//      ReadRecord(klocki[licznik], Address + 16*licznik);
+      ReadRecord(klocki[licznik], Address + 16*licznik);
     }
   }
 
 
+  /*
+  for(int i = 5; i<12;++i){
+  HAL_FLASH_Unlock();
+  FLASH_Erase_Sector(i, FLASH_VOLTAGE_RANGE_3);
+  HAL_FLASH_Lock();
+  }*/
 
 
   int platforma_x = 50;
@@ -295,8 +300,8 @@ int main(void)
   int kulka_pocz_x = 10 + (rand() % (BSP_LCD_GetXSize() - 20));
   int kulka_pocz_y = platforma_y-30;
   int kulka_r = 4;
-  int kulka_vx = 0; // 2
-  int kulka_vy = 0; // -2
+  int kulka_vx = 2; // 2
+  int kulka_vy = -2; // -2
   uint32_t kulka_kolor = LCD_COLOR_WHITE;
   uint32_t prev_tick=0;
 

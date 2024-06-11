@@ -50,10 +50,11 @@ int BBG_obsluga_zbicia_klocka(BBG *bbg)
     for (int i = 0; i < bbg->liczba_klockow; i++)
     {
         // Sprawdź, czy kulka zderzyła się z klockiem
-        if (bbg->kulka->polozenie_y + (bbg->kulka->promien-2) >= bbg->klocki[i]->pozycja_y &&
-            bbg->kulka->polozenie_y - (bbg->kulka->promien-2) <= bbg->klocki[i]->pozycja_y + bbg->klocki[i]->wysokosc &&
-            bbg->kulka->polozenie_x + (bbg->kulka->promien-2) >= bbg->klocki[i]->pozycja_x &&
-            bbg->kulka->polozenie_x - (bbg->kulka->promien-2) <= bbg->klocki[i]->pozycja_x + bbg->klocki[i]->szerokosc &&
+    	uint8_t hitbox =0;
+        if (bbg->kulka->polozenie_y + (bbg->kulka->promien+hitbox) >= bbg->klocki[i]->pozycja_y &&
+            bbg->kulka->polozenie_y - (bbg->kulka->promien+hitbox) <= bbg->klocki[i]->pozycja_y + bbg->klocki[i]->wysokosc &&
+            bbg->kulka->polozenie_x + (bbg->kulka->promien+hitbox) >= bbg->klocki[i]->pozycja_x &&
+            bbg->kulka->polozenie_x - (bbg->kulka->promien+hitbox) <= bbg->klocki[i]->pozycja_x + bbg->klocki[i]->szerokosc &&
 			bbg->klocki[i]->is_there==1)
         {
 
